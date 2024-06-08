@@ -1,7 +1,7 @@
 'use client'
 
 
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 
 class Countdown extends Component {
@@ -83,34 +83,23 @@ class Countdown extends Component {
         const countDown = this.state;
 
         return (
-            <div className="Countdown">
-        <span className="Countdown-col">
-          <span className="Countdown-col-element">
-            <strong>{this.addLeadingZeros(countDown.days)}</strong>
-            <span>{countDown.days === 1 ? "Day" : "Days"}</span>
-          </span>
-        </span>
-
-                <span className="Countdown-col">
-          <span className="Countdown-col-element">
-            <strong>{this.addLeadingZeros(countDown.hours)}</strong>
-            <span>Hours</span>
-          </span>
-        </span>
-
-                <span className="Countdown-col">
-          <span className="Countdown-col-element">
-            <strong>{this.addLeadingZeros(countDown.min)}</strong>
-            <span>Min</span>
-          </span>
-        </span>
-
-                <span className="Countdown-col">
-          <span className="Countdown-col-element">
-            <strong>{this.addLeadingZeros(countDown.sec)}</strong>
-            <span>Sec</span>
-          </span>
-        </span>
+            <div className="flex justify-around text-center">
+                <div>
+                    <p className="text-4xl font-bold">{this.addLeadingZeros(countDown.days)}</p>
+                    <p className="text-xl">{countDown.days === 1 ? "Day" : "Days"}</p>
+                </div>
+                <div>
+                    <p className="text-4xl font-bold">{this.addLeadingZeros(countDown.hours)}</p>
+                    <p className="text-xl">Hours</p>
+                </div>
+                <div>
+                    <p className="text-4xl font-bold">{this.addLeadingZeros(countDown.min)}</p>
+                    <p className="text-xl">Min</p>
+                </div>
+                <div>
+                    <p className="text-4xl font-bold">{this.addLeadingZeros(countDown.sec)}</p>
+                    <p className="text-xl">Sec</p>
+                </div>
             </div>
         );
     }
