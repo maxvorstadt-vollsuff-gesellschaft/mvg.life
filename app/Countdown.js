@@ -97,7 +97,7 @@ class Countdown extends Component {
                     <p className="text-xl">{countDown.days === 1 ? "Day" : "Days"}</p>
                 </div>
                 <div>
-                    <p className="text-4xl font-bold font-mono">{this.addLeadingZeros(countDown.hours) - 2}</p>
+                    <p className="text-4xl font-bold font-mono">{this.addLeadingZeros(countDown.hours)}</p>
                     <p className="text-xl">Hours</p>
                 </div>
                 <div>

@@ -11,7 +11,7 @@ export default function Home() {
                 <p className="text-gray-500 mb-4">Maxvorstadt Gang</p>
                 <p className="mb-8">Heute Saufen bei Jonas auf der Terasse. Start 8 Uhr!</p>
 
-                <Countdown date={new Date("2024-06-08T20:00:00")}/>
+                <Countdown date={new Date("2024-06-08T18:00:00")}/>
                 <p className="text-center mb-8 text-2xl font-semibold text-amber-800">Attacke</p>
 
                 <Image
