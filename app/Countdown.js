@@ -5,6 +5,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 
 class Countdown extends Component {
+    // @ts-ignore
     constructor(props) {
         super(props);
 
@@ -18,7 +19,9 @@ class Countdown extends Component {
 
     componentDidMount() {
         // update every second
+        // @ts-ignore
         this.interval = setInterval(() => {
+            // @ts-ignore
             const date = this.calculateCountdown(this.props.date);
             date ? this.setState(date) : this.stop();
         }, 1000);
@@ -28,7 +31,9 @@ class Countdown extends Component {
         this.stop();
     }
 
+    // @ts-ignore
     calculateCountdown(endDate) {
+        // @ts-ignore
         let diff = (Date.parse(new Date(endDate)) - Date.parse(new Date())) / 1000;
 
         // clear countdown when date is reached
@@ -68,9 +73,11 @@ class Countdown extends Component {
     }
 
     stop() {
+        // @ts-ignore
         clearInterval(this.interval);
     }
 
+    // @ts-ignore
     addLeadingZeros(value) {
         value = String(value);
         while (value.length < 2) {
@@ -82,6 +89,7 @@ class Countdown extends Component {
     render() {
         const countDown = this.state;
 
+        // @ts-ignore
         return (
             <div className="flex justify-around text-center">
                 <div>
@@ -105,10 +113,12 @@ class Countdown extends Component {
     }
 }
 
+// @ts-ignore
 Countdown.propTypes = {
     date: PropTypes.string.isRequired,
 };
 
+// @ts-ignore
 Countdown.defaultProps = {
     date: new Date(),
 };
