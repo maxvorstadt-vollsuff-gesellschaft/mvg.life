@@ -5,6 +5,7 @@ import Countdown from "@/app/Countdown";
 import image1 from '../public/image1.jpg'
 import {useEffect, useState} from "react";
 import axios from "axios";
+import Link from "next/link";
 
 type Member = {
     name: string;
@@ -57,8 +58,7 @@ export default function Home() {
                     <li>Tom</li>
                 </ul>
 
-
-                <a href="https://open.spotify.com/playlist/21pJxURnxxWy8Lpfk8KqqU?si=718f4c5f17c34b46"
+                <Link className="mb-2 font-mono text-amber-800 block" href="/events">Events</Link>                <a href="https://open.spotify.com/playlist/21pJxURnxxWy8Lpfk8KqqU?si=718f4c5f17c34b46"
                    className="font-mono text-emerald-700 mb-2 block">Spotify</a>
                 <a href="https://github.com/timkn/mvg.life"
                    className="font-mono text-gray-700 block">GitHub</a>
