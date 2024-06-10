@@ -15,7 +15,7 @@ type Member = {
 type Event = {
     id: number;
     name: string;
-    start_time: Date;
+    start_time: string;
     participants: Member[];
 };
 
@@ -38,9 +38,9 @@ export default function Home() {
             <div>
                 <h1 className="font-bold text-4xl text-amber-800">MVG</h1>
                 <p className="text-gray-500 mb-4">Maxvorstadt Gang</p>
-                <p className="mb-4">{nextEvents[0]?.name || "Heute Mensa Leo 12 Uhr? - Attacke"}</p>
+                <p className="mb-4">{nextEvents[0]?.name || "no upcoming events"}</p>
 
-                <Countdown date={new Date("2024-06-10T12:00:00")}/>
+                <Countdown date={new Date(nextEvents[0]?.start_time || "2024-06-10T12:00:00")}/>
 
                 <Image
                     src={image1}
