@@ -1,27 +1,51 @@
+'use client'
+
 import Image from "next/image";
 import Countdown from "@/app/Countdown";
 import image1 from '../public/image1.jpg'
+import {useEffect, useState} from "react";
+import axios from "axios";
+
+type Member = {
+    name: string;
+    id: number;
+};
+
+
+type Event = {
+    id: number;
+    name: string;
+    start_time: Date;
+    participants: Member[];
+};
 
 
 export default function Home() {
+    const [nextEvents, setNextEvents] = useState<Event[]>([]);
+
+    useEffect(() => {
+        axios.get('https://api.mvg.life/upcoming_events')
+            .then(response => {
+                setNextEvents(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
+        <main className="flex min-h-screen flex-col items-center justify-between px-24 py-12">
             <div>
                 <h1 className="font-bold text-4xl text-amber-800">MVG</h1>
                 <p className="text-gray-500 mb-4">Maxvorstadt Gang</p>
-                <p className="mb-8">Heute Saufen bei Jonas auf der Terasse. Start 8 Uhr!</p>
+                <p className="mb-4">{nextEvents[0]?.name || "Heute Mensa Leo 12 Uhr? - Attacke"}</p>
 
-                <Countdown date={new Date("2024-06-08T18:00:00")}/>
-                <p className="text-center mb-8 text-2xl font-semibold text-amber-800">Attacke</p>
+                <Countdown date={new Date("2024-06-10T12:00:00")}/>
 
                 <Image
                     src={image1}
                     alt="Picture of the MVG Gang"
-                    className="mb-8"
-                    // width={500} automatically provided
-                    // height={500} automatically provided
-                    // blurDataURL="data:..." automatically provided
-                    // placeholder="blur" // Optional blur-up while loading
+                    className="my-8"
                 />
 
                 <ul className="font-mono text-amber-800 mb-8">
@@ -34,9 +58,10 @@ export default function Home() {
                 </ul>
 
 
-
                 <a href="https://open.spotify.com/playlist/21pJxURnxxWy8Lpfk8KqqU?si=718f4c5f17c34b46"
-                   className="text-center font-mono text-emerald-700">Spotify</a>
+                   className="font-mono text-emerald-700 mb-2 block">Spotify</a>
+                <a href="https://github.com/timkn/mvg.life"
+                   className="font-mono text-gray-700 block">GitHub</a>
 
 
             </div>
