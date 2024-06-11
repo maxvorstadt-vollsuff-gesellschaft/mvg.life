@@ -38,7 +38,13 @@ export default function Home() {
         <main className="flex min-h-screen flex-col items-center justify-between px-24 py-12">
             <div>
                 <h1 className="font-bold text-4xl text-amber-800">MVG</h1>
-                <p className="text-gray-500 mb-4">Maxvorstadt Gang</p>
+                <p className="text-gray-500 mb-1">Maxvorstadt Gang</p>
+
+                <div className="mb-4">
+                    <Link className="font-mono text-amber-800" href="/events">[Events]</Link>
+                    <a href="https://open.spotify.com/playlist/21pJxURnxxWy8Lpfk8KqqU?si=718f4c5f17c34b46"
+                       className="font-mono text-emerald-700 mb-2 ">[Spotify]</a>
+                </div>
                 <p className="mb-4">{nextEvents[0]?.name || "no upcoming events"}</p>
 
                 <Countdown date={new Date(nextEvents[0]?.start_time || "2024-06-10T12:00:00")}/>
@@ -58,8 +64,7 @@ export default function Home() {
                     <li>Tom</li>
                 </ul>
 
-                <Link className="mb-2 font-mono text-amber-800 block" href="/events">Events</Link>                <a href="https://open.spotify.com/playlist/21pJxURnxxWy8Lpfk8KqqU?si=718f4c5f17c34b46"
-                   className="font-mono text-emerald-700 mb-2 block">Spotify</a>
+
                 <a href="https://github.com/timkn/mvg.life"
                    className="font-mono text-gray-700 block">GitHub</a>
 
