@@ -92,7 +92,7 @@ class Countdown extends Component {
         // @ts-ignore
         return (
             <div className="flex justify-around text-center gap-4">
-                <div >
+                <div>
                     <p className="text-4xl font-bold font-mono">{this.addLeadingZeros(countDown.days)}</p>
                     <p className="text-xl">{countDown.days === 1 ? "Day" : "Days"}</p>
                 </div>
