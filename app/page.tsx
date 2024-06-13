@@ -34,6 +34,8 @@ export default function Home() {
             });
     }, []);
 
+
+
     return (
         <main className="flex min-h-screen flex-col items-center justify-between px-24 py-12">
             <div>
@@ -42,6 +44,8 @@ export default function Home() {
 
                 <div className="mb-4">
                     <Link className="font-mono text-amber-800" href="/events">[Events]</Link>
+                    <Link className="font-mono text-cyan-950" href="/login">[Login]</Link>
+
                     <a href="https://open.spotify.com/playlist/21pJxURnxxWy8Lpfk8KqqU?si=718f4c5f17c34b46"
                        className="font-mono text-emerald-700 mb-2 ">[Spotify]</a>
                 </div>
