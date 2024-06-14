@@ -37,7 +37,7 @@ export default function Home() {
 
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between px-24 py-12">
+        <main className="px-24 py-12">
             <div>
                 <h1 className="font-bold text-4xl text-amber-800">MVG</h1>
                 <p className="text-gray-500 mb-1">Maxvorstadt Gang</p>
@@ -70,9 +70,7 @@ export default function Home() {
 
 
                 <a href="https://github.com/timkn/mvg.life"
-                   className="font-mono text-gray-700 block">GitHub</a>
-
-
+                   className="font-mono text-gray-700 ">GitHub</a>
             </div>
         </main>
     );
