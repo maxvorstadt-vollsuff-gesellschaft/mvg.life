@@ -87,8 +87,7 @@ export default function Home() {
 
 
     return (
-        <main className="px-24 py-12 sm:px-12 sm:py-6">
-            <div>
+            <div className="px-6 py-6 sm:px-24 sm:py-12">
                 <h1 className="font-bold text-4xl text-amber-800">Events</h1>
                 <p className="text-gray-500 mb-4">Maxvorstadt Gang</p>
 
@@ -128,6 +127,5 @@ export default function Home() {
 
                 <Link href="/" className="font-mono">[go Home]</Link>
             </div>
-        </main>
     );
 }

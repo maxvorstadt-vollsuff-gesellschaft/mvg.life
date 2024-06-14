@@ -37,7 +37,7 @@ export default function Home() {
 
 
     return (
-        <main className="px-24 py-12">
+        <main className="px-24 py-12 sm:px-12 sm:py-6">
             <div>
                 <h1 className="font-bold text-4xl text-amber-800">MVG</h1>
                 <p className="text-gray-500 mb-1">Maxvorstadt Gang</p>

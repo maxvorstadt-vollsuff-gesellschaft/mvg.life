@@ -90,7 +90,7 @@ class Countdown extends Component {
         const countDown = this.state;
 
         return (
-            <div className="flex gap-4">
+            <div className="grid grid-cols-4 gap-4">
                 <div>
                     <p className="text-4xl font-bold font-mono">{this.addLeadingZeros(countDown.days)}</p>
                     <p className="text-xl">{countDown.days === 1 ? "Day" : "Days"}</p>
