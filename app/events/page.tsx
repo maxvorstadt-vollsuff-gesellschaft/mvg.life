@@ -85,6 +85,7 @@ export default function Home() {
     }
 
 
+
     return (
         <main className="px-24 py-12 sm:px-12 sm:py-6">
             <div>
