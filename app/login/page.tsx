@@ -34,7 +34,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex min-h-screen flex-col items-center justify-between px-24 py-12">
+        <div className="flex min-h-screen flex-col items-center justify-between px-24 py-12 bg-amber-100">
             <Card>
                 <CardHeader>
                     <CardTitle>MVG Login</CardTitle>
