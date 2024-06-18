@@ -7,15 +7,14 @@ import Link from "next/link";
 import {SewingPinIcon} from "@radix-ui/react-icons";
 
 import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from "@/components/ui/drawer"
+    Dialog, DialogClose,
+    DialogContent,
+    DialogDescription, DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 
@@ -165,27 +164,31 @@ export default function Home() {
             </ul>
 
             <Link href="/" className="font-mono">[go Home]</Link>
-            <Drawer>
-                <DrawerTrigger className="font-mono text-blue-600">[add event]</DrawerTrigger>
-                <DrawerContent>
-                    <DrawerHeader>
-                        <DrawerTitle>Create Event</DrawerTitle>
-                        <DrawerDescription>create a new Event for the MVG Gang</DrawerDescription>
-                    </DrawerHeader>
+
+            <Dialog>
+                <DialogTrigger className="font-mono text-blue-600">[add event]</DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Create Event?</DialogTitle>
+                        <DialogDescription>
+                            Create a new event for the MVG Gang
+                        </DialogDescription>
+                    </DialogHeader>
                     <form onSubmit={createEvent} className="p-4">
                         <Input type="text" className="block mb-4" name="name" placeholder="Title" required/>
-                        <Input type="datetime-local" className="block mb-4" name="start_time" placeholder="Start time"
+                        <Input type="datetime-local" className="block mb-4" name="start_time"
+                               placeholder="Start time"
                                required/>
                         <Input type="text" className="block mb-4" name="location" placeholder="Location"
                                required/>
-                            <DrawerClose>
-                                <Button>create</Button>
-                            </DrawerClose>
+                        <DialogClose asChild>
+                            <Button type="submit" variant="secondary">
+                                create
+                            </Button>
+                        </DialogClose>
                     </form>
-
-
-                </DrawerContent>
-            </Drawer>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
