@@ -35,9 +35,8 @@ export default function LoginPage() {
         client_secret: "",
       })
       .then((response) => {
-        console.log(response.data);
         localStorage.setItem("token", response.data.access_token);
-        navigate("/");
+        navigate("/events");
       })
       .catch((error) => {
         console.error(error);
