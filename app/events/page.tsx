@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import Link from "next/link";
 import { SewingPinIcon } from "@radix-ui/react-icons";
+import { Separator } from "@/components/ui/separator";
 
 import {
   Dialog,
@@ -154,7 +155,7 @@ export default function Home() {
       <ul className="font-mono text-cyan-950 mb-8">
         {events &&
           events.map(({ id, name, start_time, participants, location }) => (
-            <li className="mb-2" key={id}>
+            <li className="mb-4" key={id}>
               <span className="text-amber-800">
                 {new Date(start_time).toLocaleDateString("de-DE")}:
               </span>{" "}
