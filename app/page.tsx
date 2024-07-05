@@ -26,9 +26,14 @@ export default function Home() {
   useEffect(() => {
     setToken(localStorage.getItem("token"));
     axios
-      .get("https://api.mvg.life/upcoming_events")
+      .get("https://api.mvg.life/events/upcoming", {
+          params: {
+              limit: 1
+          }
+      })
       .then((response) => {
         setNextEvents(response.data);
+        console.log(response.data)
       })
       .catch((error) => {
         console.error(error);
