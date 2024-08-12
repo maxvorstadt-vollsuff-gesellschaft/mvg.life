@@ -21,6 +21,7 @@ export default function LoginPage() {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
+
     const username = formData.get("username");
     const password = formData.get("password");
 
