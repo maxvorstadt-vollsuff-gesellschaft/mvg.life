@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent } from "react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -21,8 +21,11 @@ export default function LoginPage() {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
+
     const username = formData.get("username");
     const password = formData.get("password");
+
+    const router = useRouter();
 
     // @ts-ignore
     axios
@@ -36,7 +39,7 @@ export default function LoginPage() {
       })
       .then((response) => {
         localStorage.setItem("token", response.data.access_token);
-        navigate("/events");
+        router.push("/events");
       })
       .catch((error) => {
         console.error(error);
