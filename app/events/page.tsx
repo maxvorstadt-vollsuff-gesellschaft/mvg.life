@@ -44,7 +44,7 @@ export default function Home() {
 
   function fetchEvents() {
     axios
-      .get("https://api.mvg.life/events")
+      .get("https://api.aperol.life/events")
       .then((response) => {
         setEvents(response.data);
       })
@@ -55,7 +55,7 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get("https://api.mvg.life/users/me/", {
+      .get("https://api.aperol.life/users/me/", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       })
       .then((response) => {
@@ -70,7 +70,7 @@ export default function Home() {
   function participate(eventId: number) {
     axios
       .post(
-        `https://api.mvg.life/events/${eventId}/participate`,
+        `https://api.aperol.life/events/${eventId}/participate`,
         {},
         {
           params: { member: member.id },
@@ -89,7 +89,7 @@ export default function Home() {
 
   function leave(eventId: number) {
     axios
-      .delete(`https://api.mvg.life/events/${eventId}/participate`, {
+      .delete(`https://api.aperol.life/events/${eventId}/participate`, {
         params: { member: member.id },
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       })
@@ -114,7 +114,7 @@ export default function Home() {
 
     axios
       .post(
-        "https://api.mvg.life/events",
+        "https://api.aperol.life/events",
         {
           name: name,
           start_time: startTime,
