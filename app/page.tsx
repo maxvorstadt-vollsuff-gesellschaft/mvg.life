@@ -26,7 +26,7 @@ export default function Home() {
   useEffect(() => {
     setToken(localStorage.getItem("token"));
     axios
-      .get("https://api.mvg.life/events/upcoming", {
+      .get("https://api.aperol.life/events/upcoming", {
           params: {
               limit: 1
           }

@@ -29,7 +29,7 @@ export default function LoginPage() {
 
     // @ts-ignore
     axios
-      .postForm("https://api.mvg.life/token", {
+      .postForm("https://api.aperol.life/token", {
         username: username,
         password: password,
         grant_type: "",
