@@ -138,7 +138,7 @@ export default function Home() {
   return (
     <div className="px-6 py-6 sm:px-24 sm:py-12">
       <h1 className="font-bold text-4xl text-amber-800">Events</h1>
-      <p className="text-gray-500 mb-4">Maxvorstadt Gang</p>
+      <p className="text-gray-500 mb-4">Aperol.life</p>
 
       {member.id === -1 && (
         <p className="mb-4">
@@ -211,7 +211,7 @@ export default function Home() {
           <DialogHeader>
             <DialogTitle>Create Event?</DialogTitle>
             <DialogDescription>
-              Create a new event for the MVG Gang
+              Create a new event
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={createEvent} className="p-4">
