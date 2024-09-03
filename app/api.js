@@ -27,7 +27,7 @@ async function refreshAccessToken() {
         throw new Error('No refresh token available');
     }
 
-    const response = await axios.post('https://api.aperol.life/refresh', {
+    const response = await axios.post('https://api.aperol.life/auth/refresh', {
         refresh_token: refreshToken,
     });
 

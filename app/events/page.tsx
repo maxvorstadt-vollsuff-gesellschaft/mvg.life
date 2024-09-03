@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import axios from "axios";
 import { toast } from "sonner";
 import Link from "next/link";
 import { SewingPinIcon } from "@radix-ui/react-icons";
