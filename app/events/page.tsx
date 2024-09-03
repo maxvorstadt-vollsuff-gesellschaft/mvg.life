@@ -143,7 +143,7 @@ export default function Home() {
       {member.id === -1 && (
         <p className="mb-4">
           Please{" "}
-          <a className="font-mono text-amber-800" href="/login">
+          <a className="font-mono text-amber-800" href="https://api.aperol.life/auth/login">
             login
           </a>
         </p>

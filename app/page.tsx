@@ -65,7 +65,7 @@ export default function Home() {
               [Logout]
             </button>
           ) : (
-            <Link className="font-mono text-cyan-950" href="/login">
+            <Link className="font-mono text-cyan-950" href="https://api.aperol.life/auth/login">
               [Login]
             </Link>
           )}

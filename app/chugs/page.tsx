@@ -58,13 +58,13 @@ export default function Home() {
 
             <ul className="font-mono text-cyan-950 mb-8">
                 {chugs &&
-                    chugs.map(({ id, time, member }) => (
+                    chugs.map(({ id, time, member }, index) => (
                         <li
                             className="mb-6 lg:mb-4 md:mb-4 border-l-gray-500 border-l-2 pl-1"
                             key={id}
                         >
                             <span className="text-amber-800">
-                                {member.name}: {time}
+                                #{index+1} - {member.name}: {time}
                             </span>
                         </li>
                     ))}
