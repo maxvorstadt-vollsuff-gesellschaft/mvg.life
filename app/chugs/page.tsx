@@ -20,6 +20,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import apiClient from '../api';
 
 type Member = {
     name: string;
@@ -41,8 +42,8 @@ export default function Home() {
     }, []);
 
     function fetchChugs() {
-        axios
-            .get("https://api.aperol.life/chugs")
+        apiClient
+            .get("/chugs")
             .then((response) => {
                 setChugs(response.data);
             })

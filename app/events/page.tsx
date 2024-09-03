@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import Link from "next/link";
 import { SewingPinIcon } from "@radix-ui/react-icons";
-import { Separator } from "@/components/ui/separator";
+import apiClient from '../api';
 
 import {
   Dialog,
@@ -43,8 +43,8 @@ export default function Home() {
   }, []);
 
   function fetchEvents() {
-    axios
-      .get("https://api.aperol.life/events")
+    apiClient
+      .get("/events")
       .then((response) => {
         setEvents(response.data);
       })
@@ -54,10 +54,8 @@ export default function Home() {
   }
 
   useEffect(() => {
-    axios
-      .get("https://api.aperol.life/users/me/", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      })
+    apiClient
+      .get("/users/me/")
       .then((response) => {
         setMember(response.data);
       })
@@ -68,13 +66,12 @@ export default function Home() {
   }, []);
 
   function participate(eventId: number) {
-    axios
+    apiClient
       .post(
-        `https://api.aperol.life/events/${eventId}/participate`,
+        `/events/${eventId}/participate`,
         {},
         {
-          params: { member: member.id },
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          params: { member: member.id }
         },
       )
       .then((response) => {
@@ -88,10 +85,9 @@ export default function Home() {
   }
 
   function leave(eventId: number) {
-    axios
-      .delete(`https://api.aperol.life/events/${eventId}/participate`, {
-        params: { member: member.id },
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    apiClient
+      .delete(`/events/${eventId}/participate`, {
+        params: { member: member.id }
       })
       .then((response) => {
         console.log(response.data);
@@ -112,18 +108,15 @@ export default function Home() {
     const name = formData.get("name");
     const author_id = member.id;
 
-    axios
+    apiClient
       .post(
-        "https://api.aperol.life/events",
+        "/events",
         {
           name: name,
           start_time: startTime,
           location: location,
           author_id: author_id,
-        },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        },
+        }
       )
       .then((response) => {
         console.log(response.data);
