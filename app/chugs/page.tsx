@@ -43,7 +43,7 @@ export default function Home() {
 
     function fetchChugs() {
         apiClient
-            .get("/chugs")
+            .get("/chugs/top-player")
             .then((response) => {
                 setChugs(response.data);
             })
