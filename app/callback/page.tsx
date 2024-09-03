@@ -1,13 +1,15 @@
-'use client';
+'use client'
 
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-export default function Callback() {
+export default function CallbackPage() {
     const router = useRouter();
 
     useEffect(() => {
-        const { code, session_state } = router.query;
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const session_state = urlParams.get('session_state');
 
         if (code) {
             fetch(`https://api.aperol.life/auth/callback?code=${code}&session_state=${session_state}`, {
@@ -26,7 +28,7 @@ export default function Callback() {
                     console.error('Error fetching tokens:', error);
                 });
         }
-    }, [router.query]);
+    }, []);
 
     return <div>Loading...</div>;
 }
