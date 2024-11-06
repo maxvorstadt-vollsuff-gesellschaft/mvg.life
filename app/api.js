@@ -27,7 +27,7 @@ async function refreshAccessToken() {
         throw new Error('No refresh token available');
     }
 
-    const response = await axios.post('https://api.aperol.life/auth/refresh', {
+    const response = await axios.post('https://api.mvg.life/auth/refresh', {
         refresh_token: refreshToken,
     });
 
@@ -49,7 +49,7 @@ async function refreshAccessToken() {
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: 'https://api.aperol.life',
+    baseURL: 'https://api.mvg.life',
 });
 
 axiosInstance.interceptors.request.use(

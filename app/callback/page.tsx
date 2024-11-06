@@ -12,7 +12,7 @@ export default function CallbackPage() {
         const session_state = urlParams.get('session_state');
 
         if (code) {
-            fetch(`https://api.aperol.life/auth/callback?code=${code}&session_state=${session_state}`, {
+            fetch(`https://api.mvg.life/auth/callback?code=${code}&session_state=${session_state}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

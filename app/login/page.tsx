@@ -29,7 +29,7 @@ export default function LoginPage() {
 
     // @ts-ignore
     axios
-      .postForm("https://api.aperol.life/token", {
+      .postForm("https://api.mvg.life/token", {
         username: username,
         password: password,
         grant_type: "",
@@ -50,7 +50,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen flex-col items-center justify-between px-24 py-12 bg-amber-100">
       <Card>
         <CardHeader>
-          <CardTitle>Aperol.life Login</CardTitle>
+          <CardTitle>MVG.life Login</CardTitle>
           <CardDescription>Login with your credentials</CardDescription>
         </CardHeader>
         <CardContent>

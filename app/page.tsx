@@ -26,7 +26,7 @@ export default function Home() {
   useEffect(() => {
     setToken(localStorage.getItem("token"));
     axios
-      .get("https://api.aperol.life/events/upcoming", {
+      .get("https://api.mvg.life/events/upcoming", {
           params: {
               limit: 1
           }
@@ -43,8 +43,8 @@ export default function Home() {
   return (
     <main className="px-12 py-6 sm:px-24 sm:py-12">
       <div>
-        <h1 className="font-bold text-4xl text-amber-800">Aperol.life</h1>
-        <p className="text-gray-500 mb-1">Drink in the Sunshine, Sip on Life - Aperol.life</p>
+        <h1 className="font-bold text-4xl text-amber-800">MVG.life</h1>
+        <p className="text-gray-500 mb-1">Drink in the Sunshine, Sip on Life - MVG.life</p>
 
         <div className="mb-4">
           <Link className="font-mono text-amber-800" href="/events">
@@ -65,7 +65,7 @@ export default function Home() {
               [Logout]
             </button>
           ) : (
-            <Link className="font-mono text-cyan-950" href="https://api.aperol.life/auth/login">
+            <Link className="font-mono text-cyan-950" href="https://api.mvg.life/auth/login">
               [Login]
             </Link>
           )}
