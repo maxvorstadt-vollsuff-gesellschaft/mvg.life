@@ -50,7 +50,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen flex-col items-center justify-between px-24 py-12 bg-amber-100">
       <Card>
         <CardHeader>
-          <CardTitle>MVG Login</CardTitle>
+          <CardTitle>Aperol.life Login</CardTitle>
           <CardDescription>Login with your credentials</CardDescription>
         </CardHeader>
         <CardContent>

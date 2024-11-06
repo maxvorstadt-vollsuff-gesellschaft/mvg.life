@@ -1,11 +1,10 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import axios from "axios";
 import { toast } from "sonner";
 import Link from "next/link";
 import { SewingPinIcon } from "@radix-ui/react-icons";
-import { Separator } from "@/components/ui/separator";
+import apiClient from '../api';
 
 import {
   Dialog,
@@ -43,8 +42,8 @@ export default function Home() {
   }, []);
 
   function fetchEvents() {
-    axios
-      .get("https://api.aperol.life/events")
+    apiClient
+      .get("/events")
       .then((response) => {
         setEvents(response.data);
       })
@@ -54,10 +53,8 @@ export default function Home() {
   }
 
   useEffect(() => {
-    axios
-      .get("https://api.aperol.life/users/me/", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      })
+    apiClient
+      .get("/users/me/")
       .then((response) => {
         setMember(response.data);
       })
@@ -68,13 +65,12 @@ export default function Home() {
   }, []);
 
   function participate(eventId: number) {
-    axios
+    apiClient
       .post(
-        `https://api.aperol.life/events/${eventId}/participate`,
+        `/events/${eventId}/participate`,
         {},
         {
-          params: { member: member.id },
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          params: { member: member.id }
         },
       )
       .then((response) => {
@@ -88,10 +84,9 @@ export default function Home() {
   }
 
   function leave(eventId: number) {
-    axios
-      .delete(`https://api.aperol.life/events/${eventId}/participate`, {
-        params: { member: member.id },
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    apiClient
+      .delete(`/events/${eventId}/participate`, {
+        params: { member: member.id }
       })
       .then((response) => {
         console.log(response.data);
@@ -112,18 +107,15 @@ export default function Home() {
     const name = formData.get("name");
     const author_id = member.id;
 
-    axios
+    apiClient
       .post(
-        "https://api.aperol.life/events",
+        "/events",
         {
           name: name,
           start_time: startTime,
           location: location,
           author_id: author_id,
-        },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        },
+        }
       )
       .then((response) => {
         console.log(response.data);
@@ -138,12 +130,12 @@ export default function Home() {
   return (
     <div className="px-6 py-6 sm:px-24 sm:py-12">
       <h1 className="font-bold text-4xl text-amber-800">Events</h1>
-      <p className="text-gray-500 mb-4">Maxvorstadt Gang</p>
+      <p className="text-gray-500 mb-4">Aperol.life</p>
 
       {member.id === -1 && (
         <p className="mb-4">
           Please{" "}
-          <a className="font-mono text-amber-800" href="/login">
+          <a className="font-mono text-amber-800" href="https://api.aperol.life/auth/login">
             login
           </a>
         </p>
@@ -211,7 +203,7 @@ export default function Home() {
           <DialogHeader>
             <DialogTitle>Create Event?</DialogTitle>
             <DialogDescription>
-              Create a new event for the MVG Gang
+              Create a new event
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={createEvent} className="p-4">
