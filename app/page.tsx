@@ -26,7 +26,7 @@ export default function Home() {
 
   useEffect(() => {
     mvgApi.getUpcomingEvents().then((response) => {
-      console.log(response.data);
+      setNextEvents(response.data);
     });
 
     setToken(localStorage.getItem("token"));
