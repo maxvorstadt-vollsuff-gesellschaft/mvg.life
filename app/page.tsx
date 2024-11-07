@@ -62,6 +62,9 @@ export default function Home() {
             </Link>
           )}
 
+          <Link className="font-mono text-emerald-700 mb-2 " href="/recipes">
+            [Recipes]
+          </Link>
           <a
             href="https://open.spotify.com/playlist/21pJxURnxxWy8Lpfk8KqqU?si=718f4c5f17c34b46"
             className="font-mono text-emerald-700 mb-2 "
