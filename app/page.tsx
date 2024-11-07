@@ -6,6 +6,7 @@ import image1 from "../public/image1.jpg";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import { mvgApi } from "./mvg-api";
 
 type Member = {
   name: string;
@@ -24,8 +25,12 @@ export default function Home() {
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
+    mvgApi.listUpcomingEvents().then((response) => {
+      console.log(response.data);
+    });
+
     setToken(localStorage.getItem("token"));
-    axios
+    /* axios
       .get("https://api.mvg.life/events/upcoming", {
           params: {
               limit: 1
@@ -37,7 +42,7 @@ export default function Home() {
       })
       .catch((error) => {
         console.error(error);
-      });
+      }); */
   }, []);
 
   return (
@@ -65,7 +70,7 @@ export default function Home() {
               [Logout]
             </button>
           ) : (
-            <Link className="font-mono text-cyan-950" href="https://api.mvg.life/auth/login">
+            <Link className="font-mono text-cyan-950" href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`}>
               [Login]
             </Link>
           )}
