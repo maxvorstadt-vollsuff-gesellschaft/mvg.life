@@ -88,7 +88,7 @@ export default function Recipes() {
               key={id}
             >
               <span className="text-amber-800">{name} ({time} min)</span>
-              <p>{description}</p>
+              <p className="whitespace-nowrap overflow-hidden text-ellipsis">{description}</p>
               <span className="text-gray-500">by {author?.name}</span>
             </li>
           ))}
