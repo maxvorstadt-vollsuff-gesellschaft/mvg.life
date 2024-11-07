@@ -73,6 +73,12 @@ export default function Home() {
     });
   }
 
+  function deleteEvent(eventId: number) {
+    mvgApi.deleteEventById(eventId).then(() => {
+      fetchEvents();
+    });
+  }
+
   return (
     <div className="px-6 py-6 sm:px-24 sm:py-12">
       <h1 className="font-bold text-4xl text-amber-800">Events</h1>
@@ -92,7 +98,7 @@ export default function Home() {
 
       <ul className="font-mono text-cyan-950 mb-8">
         {events &&
-          events.map(({ id, name, start_time, participants, location }) => (
+          events.map(({ id, name, start_time, participants, location, author }) => (
             <li
               className="mb-6 lg:mb-4 md:mb-4 border-l-gray-500 border-l-2 pl-1"
               key={id}
@@ -132,6 +138,14 @@ export default function Home() {
                   <SewingPinIcon />
                   <p>{location}</p>
                 </div>
+              )}
+              {author?.id === member.id && (
+                <button
+                  onClick={() => deleteEvent(id)}
+                  className="text-red-600 mr-1"
+                >
+                  [Delete]
+                </button>
               )}
             </li>
           ))}
