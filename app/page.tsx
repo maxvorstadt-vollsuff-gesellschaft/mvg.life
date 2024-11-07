@@ -45,7 +45,9 @@ export default function Home() {
           <Link className="font-mono text-amber-800" href="/chugs">
             [Chugometer]
           </Link>
-
+          <Link className="font-mono text-amber-800" href="/recipes">
+            [Recipes]
+          </Link>
           {token ? (
             <button
               className="font-mono text-cyan-950"
@@ -61,10 +63,6 @@ export default function Home() {
               [Login]
             </Link>
           )}
-
-          <Link className="font-mono text-emerald-700 mb-2 " href="/recipes">
-            [Recipes]
-          </Link>
           <a
             href="https://open.spotify.com/playlist/21pJxURnxxWy8Lpfk8KqqU?si=718f4c5f17c34b46"
             className="font-mono text-emerald-700 mb-2 "

@@ -45,21 +45,6 @@ export interface BaseChug {
 /**
  * 
  * @export
- * @enum {string}
- */
-
-export const ComplexityLevel = {
-    _515: '5-15',
-    _1535: '15-35',
-    _40: '40+'
-} as const;
-
-export type ComplexityLevel = typeof ComplexityLevel[keyof typeof ComplexityLevel];
-
-
-/**
- * 
- * @export
  * @interface CreateCard
  */
 export interface CreateCard {
@@ -362,16 +347,16 @@ export interface Recipe {
     'description'?: string | null;
     /**
      * 
-     * @type {TimeOfDay}
+     * @type {number}
      * @memberof Recipe
      */
-    'time_of_day': TimeOfDay;
+    'time': number | null;
     /**
      * 
-     * @type {ComplexityLevel}
+     * @type {Situation}
      * @memberof Recipe
      */
-    'complexity': ComplexityLevel | null;
+    'situation': Situation;
     /**
      * 
      * @type {number}
@@ -407,16 +392,16 @@ export interface RecipeCreate {
     'description'?: string | null;
     /**
      * 
-     * @type {TimeOfDay}
+     * @type {number}
      * @memberof RecipeCreate
      */
-    'time_of_day': TimeOfDay;
+    'time': number | null;
     /**
      * 
-     * @type {ComplexityLevel}
+     * @type {Situation}
      * @memberof RecipeCreate
      */
-    'complexity': ComplexityLevel | null;
+    'situation': Situation;
     /**
      * 
      * @type {number}
@@ -446,13 +431,13 @@ export interface ResponseListEventDrinks {
  * @enum {string}
  */
 
-export const TimeOfDay = {
+export const Situation = {
     Breakfast: 'breakfast',
     Lunch: 'lunch',
     Dinner: 'dinner'
 } as const;
 
-export type TimeOfDay = typeof TimeOfDay[keyof typeof TimeOfDay];
+export type Situation = typeof Situation[keyof typeof Situation];
 
 
 /**
