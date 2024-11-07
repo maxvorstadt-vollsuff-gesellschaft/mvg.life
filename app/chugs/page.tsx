@@ -23,7 +23,7 @@ export default function Home() {
     return (
         <div className="px-6 py-6 sm:px-24 sm:py-12">
             <h1 className="font-bold text-4xl text-amber-800">Chugs</h1>
-            <p className="text-gray-500 mb-4">MVG.life</p>
+            <p className="text-gray-500 mb-4">by <a href="https://chuggingface.org/">Chuggingface</a></p>
 
             <ul className="font-mono text-cyan-950 mb-8">
                 {chugs &&
