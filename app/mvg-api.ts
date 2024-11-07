@@ -53,6 +53,33 @@ async function refreshAccessToken() {
     return data.access_token;
 }
 
+async function validateStoredToken() {
+  const token = localStorage.getItem('token');
+  
+  if (!token) {
+    return false;
+  }
+
+  if (isTokenExpired(token)) {
+    try {
+      await refreshAccessToken();
+      return true;
+    } catch (error) {
+      console.error('Failed to refresh token:', error);
+      localStorage.removeItem('token');
+      localStorage.removeItem('refresh_token');
+      localStorage.removeItem('token_expiry');
+      return false;
+    }
+  }
+
+  return true;
+}
+
+validateStoredToken().catch(error => {
+  console.error('Token validation failed:', error);
+});
+
 const apiConfig = new Configuration({
   basePath: process.env.NEXT_PUBLIC_API_BASE_URL,
   accessToken: async () => {
