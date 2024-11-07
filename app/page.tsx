@@ -25,24 +25,11 @@ export default function Home() {
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    mvgApi.listUpcomingEvents().then((response) => {
+    mvgApi.getUpcomingEvents().then((response) => {
       console.log(response.data);
     });
 
     setToken(localStorage.getItem("token"));
-    /* axios
-      .get("https://api.mvg.life/events/upcoming", {
-          params: {
-              limit: 1
-          }
-      })
-      .then((response) => {
-        setNextEvents(response.data);
-        console.log(response.data)
-      })
-      .catch((error) => {
-        console.error(error);
-      }); */
   }, []);
 
   return (

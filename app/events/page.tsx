@@ -1,10 +1,8 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import { toast } from "sonner";
 import Link from "next/link";
 import { SewingPinIcon } from "@radix-ui/react-icons";
-import apiClient from '../api';
 
 import {
   Dialog,
@@ -20,18 +18,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-type Member = {
-  name: string;
-  id: number;
-};
-
-type Event = {
-  id: number;
-  name: string;
-  start_time: string;
-  participants: Member[];
-  location: string;
-};
+import { mvgApi } from "../mvg-api";
+import { Member } from "../ts-client";
+import { Event } from "../ts-client";
 
 export default function Home() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -42,60 +31,27 @@ export default function Home() {
   }, []);
 
   function fetchEvents() {
-    apiClient
-      .get("/events")
-      .then((response) => {
-        setEvents(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    mvgApi.listEvents().then(({data}) => {
+      setEvents(data);
+    });
   }
 
   useEffect(() => {
-    apiClient
-      .get("/users/me/")
-      .then((response) => {
-        setMember(response.data);
-      })
-      .catch((error) => {
-        toast(error.response.data.detail);
-        console.error(error);
-      });
+    mvgApi.readCurrentUser().then(({data}) => {
+      setMember(data);
+    });
   }, []);
 
   function participate(eventId: number) {
-    apiClient
-      .post(
-        `/events/${eventId}/participate`,
-        {},
-        {
-          params: { member: member.id }
-        },
-      )
-      .then((response) => {
-        console.log(response.data);
-        fetchEvents();
-      })
-      .catch((error) => {
-        toast(error.response.data.detail);
-        console.error(error);
-      });
+    mvgApi.addEventParticipant(eventId, member.id).then(() => {
+      fetchEvents();
+    });
   }
 
   function leave(eventId: number) {
-    apiClient
-      .delete(`/events/${eventId}/participate`, {
-        params: { member: member.id }
-      })
-      .then((response) => {
-        console.log(response.data);
-        fetchEvents();
-      })
-      .catch((error) => {
-        toast(error.response.data.detail);
-        console.error(error);
-      });
+    mvgApi.removeEventParticipant(eventId, member.id).then(() => {
+      fetchEvents();
+    });
   }
 
   function createEvent(event: FormEvent<HTMLFormElement>) {
@@ -107,24 +63,14 @@ export default function Home() {
     const name = formData.get("name");
     const author_id = member.id;
 
-    apiClient
-      .post(
-        "/events",
-        {
-          name: name,
-          start_time: startTime,
-          location: location,
-          author_id: author_id,
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-        fetchEvents();
-      })
-      .catch((error) => {
-        toast(error.response.data.detail);
-        console.error(error);
-      });
+    mvgApi.createEvent({
+      name: name as string,
+      start_time: startTime as string,
+      location: location as string,
+      author_id: author_id,
+    }).then(() => {
+      fetchEvents();
+    });
   }
 
   return (

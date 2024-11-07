@@ -71,7 +71,7 @@ const apiConfig = new Configuration({
       throw new Error('No token available');
     }
 
-    return `Bearer ${token}`;
+    return token;
   },
 });
 
