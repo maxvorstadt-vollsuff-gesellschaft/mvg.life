@@ -45,6 +45,25 @@ export interface BaseChug {
 /**
  * 
  * @export
+ * @interface Card
+ */
+export interface Card {
+    /**
+     * 
+     * @type {number}
+     * @memberof Card
+     */
+    'member_id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Card
+     */
+    'card_uid': string;
+}
+/**
+ * 
+ * @export
  * @interface CreateCard
  */
 export interface CreateCard {
@@ -172,6 +191,24 @@ export interface Event {
      */
     'duration'?: number | null;
     /**
+     * Minimum role required to view this event
+     * @type {Roles}
+     * @memberof Event
+     */
+    'view_role'?: Roles;
+    /**
+     * Minimum role required to participate in this event
+     * @type {Roles}
+     * @memberof Event
+     */
+    'participate_role'?: Roles;
+    /**
+     * Minimum role required to edit this event
+     * @type {Roles}
+     * @memberof Event
+     */
+    'edit_role'?: Roles;
+    /**
      * 
      * @type {number}
      * @memberof Event
@@ -190,6 +227,8 @@ export interface Event {
      */
     'author': Member | null;
 }
+
+
 /**
  * 
  * @export
@@ -221,12 +260,26 @@ export interface EventCreate {
      */
     'duration'?: number | null;
     /**
-     * 
-     * @type {number}
+     * Minimum role required to view this event
+     * @type {Roles}
      * @memberof EventCreate
      */
-    'author_id': number | null;
+    'view_role'?: Roles;
+    /**
+     * Minimum role required to participate in this event
+     * @type {Roles}
+     * @memberof EventCreate
+     */
+    'participate_role'?: Roles;
+    /**
+     * Minimum role required to edit this event
+     * @type {Roles}
+     * @memberof EventCreate
+     */
+    'edit_role'?: Roles;
 }
+
+
 /**
  * 
  * @export
@@ -425,6 +478,21 @@ export interface ResponseGetMemberDrinks {
  */
 export interface ResponseListEventDrinks {
 }
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const Roles = {
+    Guest: 'guest',
+    MkmMember: 'mkm-member',
+    MvgMember: 'mvg-member'
+} as const;
+
+export type Roles = typeof Roles[keyof typeof Roles];
+
+
 /**
  * 
  * @export
@@ -1082,7 +1150,7 @@ export const CardApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createNewCard(createCard: CreateCard, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async createNewCard(createCard: CreateCard, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Card>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createNewCard(createCard, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CardApi.createNewCard']?.[localVarOperationServerIndex]?.url;
@@ -1095,7 +1163,7 @@ export const CardApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteCardByMemberId(memberId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async deleteCardByMemberId(memberId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Card>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteCardByMemberId(memberId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CardApi.deleteCardByMemberId']?.[localVarOperationServerIndex]?.url;
@@ -1107,7 +1175,7 @@ export const CardApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllCards(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async getAllCards(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Card>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getAllCards(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CardApi.getAllCards']?.[localVarOperationServerIndex]?.url;
@@ -1130,7 +1198,7 @@ export const CardApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createNewCard(createCard: CreateCard, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        createNewCard(createCard: CreateCard, options?: RawAxiosRequestConfig): AxiosPromise<Card> {
             return localVarFp.createNewCard(createCard, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1140,7 +1208,7 @@ export const CardApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteCardByMemberId(memberId: number, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        deleteCardByMemberId(memberId: number, options?: RawAxiosRequestConfig): AxiosPromise<Card> {
             return localVarFp.deleteCardByMemberId(memberId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1149,7 +1217,7 @@ export const CardApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllCards(options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        getAllCards(options?: RawAxiosRequestConfig): AxiosPromise<Array<Card>> {
             return localVarFp.getAllCards(options).then((request) => request(axios, basePath));
         },
     };
@@ -1780,6 +1848,36 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @summary Get Calendar Events
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCalendarEvents: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/events/calendar`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get Event
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -1942,6 +2040,10 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
             if (skip !== undefined) {
                 localVarQueryParameter['skip'] = skip;
             }
@@ -2037,7 +2139,7 @@ export const EventsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createEvent(eventCreate: EventCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async createEvent(eventCreate: EventCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createEvent(eventCreate, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EventsApi.createEvent']?.[localVarOperationServerIndex]?.url;
@@ -2054,6 +2156,18 @@ export const EventsApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteEventById(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EventsApi.deleteEventById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get Calendar Events
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCalendarEvents(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCalendarEvents(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EventsApi.getCalendarEvents']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -2165,7 +2279,7 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createEvent(eventCreate: EventCreate, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        createEvent(eventCreate: EventCreate, options?: RawAxiosRequestConfig): AxiosPromise<Event> {
             return localVarFp.createEvent(eventCreate, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2177,6 +2291,15 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
          */
         deleteEventById(id: number, options?: RawAxiosRequestConfig): AxiosPromise<Event> {
             return localVarFp.deleteEventById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get Calendar Events
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCalendarEvents(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.getCalendarEvents(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2286,6 +2409,17 @@ export class EventsApi extends BaseAPI {
      */
     public deleteEventById(id: number, options?: RawAxiosRequestConfig) {
         return EventsApiFp(this.configuration).deleteEventById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get Calendar Events
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EventsApi
+     */
+    public getCalendarEvents(options?: RawAxiosRequestConfig) {
+        return EventsApiFp(this.configuration).getCalendarEvents(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3005,6 +3139,36 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
         },
         /**
          * 
+         * @summary Get Calendar Events
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCalendarEvents: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/events/calendar`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get Event
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -3382,6 +3546,10 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
             if (skip !== undefined) {
                 localVarQueryParameter['skip'] = skip;
             }
@@ -3434,12 +3602,12 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
         /**
          * 
          * @summary Get Quotes
-         * @param {number} [limit] 
          * @param {number} [skip] 
+         * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listQuotes: async (limit?: number, skip?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listQuotes: async (skip?: number, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/quotes`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3452,12 +3620,12 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
             if (skip !== undefined) {
                 localVarQueryParameter['skip'] = skip;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
             }
 
 
@@ -3747,7 +3915,7 @@ export const MvgApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createEvent(eventCreate: EventCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async createEvent(eventCreate: EventCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createEvent(eventCreate, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.createEvent']?.[localVarOperationServerIndex]?.url;
@@ -3760,7 +3928,7 @@ export const MvgApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createNewCard(createCard: CreateCard, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async createNewCard(createCard: CreateCard, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Card>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createNewCard(createCard, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.createNewCard']?.[localVarOperationServerIndex]?.url;
@@ -3786,7 +3954,7 @@ export const MvgApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createRecipe(recipeCreate: RecipeCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async createRecipe(recipeCreate: RecipeCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Recipe>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createRecipe(recipeCreate, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.createRecipe']?.[localVarOperationServerIndex]?.url;
@@ -3799,7 +3967,7 @@ export const MvgApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteCardByMemberId(memberId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async deleteCardByMemberId(memberId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Card>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteCardByMemberId(memberId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.deleteCardByMemberId']?.[localVarOperationServerIndex]?.url;
@@ -3826,7 +3994,7 @@ export const MvgApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteRecipe(recipeId?: number, recipeName?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async deleteRecipe(recipeId?: number, recipeName?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteRecipe(recipeId, recipeName, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.deleteRecipe']?.[localVarOperationServerIndex]?.url;
@@ -3838,7 +4006,7 @@ export const MvgApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllCards(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async getAllCards(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Card>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getAllCards(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.getAllCards']?.[localVarOperationServerIndex]?.url;
@@ -3854,6 +4022,18 @@ export const MvgApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getAllRecipes(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.getAllRecipes']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get Calendar Events
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCalendarEvents(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCalendarEvents(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MvgApi.getCalendarEvents']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -4017,13 +4197,13 @@ export const MvgApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get Quotes
-         * @param {number} [limit] 
          * @param {number} [skip] 
+         * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listQuotes(limit?: number, skip?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listQuotes(limit, skip, options);
+        async listQuotes(skip?: number, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Quote>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listQuotes(skip, limit, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.listQuotes']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -4153,7 +4333,7 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createEvent(eventCreate: EventCreate, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        createEvent(eventCreate: EventCreate, options?: RawAxiosRequestConfig): AxiosPromise<Event> {
             return localVarFp.createEvent(eventCreate, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4163,7 +4343,7 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createNewCard(createCard: CreateCard, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        createNewCard(createCard: CreateCard, options?: RawAxiosRequestConfig): AxiosPromise<Card> {
             return localVarFp.createNewCard(createCard, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4183,7 +4363,7 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRecipe(recipeCreate: RecipeCreate, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        createRecipe(recipeCreate: RecipeCreate, options?: RawAxiosRequestConfig): AxiosPromise<Recipe> {
             return localVarFp.createRecipe(recipeCreate, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4193,7 +4373,7 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteCardByMemberId(memberId: number, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        deleteCardByMemberId(memberId: number, options?: RawAxiosRequestConfig): AxiosPromise<Card> {
             return localVarFp.deleteCardByMemberId(memberId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4214,7 +4394,7 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteRecipe(recipeId?: number, recipeName?: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        deleteRecipe(recipeId?: number, recipeName?: string, options?: RawAxiosRequestConfig): AxiosPromise<object> {
             return localVarFp.deleteRecipe(recipeId, recipeName, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4223,7 +4403,7 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllCards(options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        getAllCards(options?: RawAxiosRequestConfig): AxiosPromise<Array<Card>> {
             return localVarFp.getAllCards(options).then((request) => request(axios, basePath));
         },
         /**
@@ -4234,6 +4414,15 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
          */
         getAllRecipes(options?: RawAxiosRequestConfig): AxiosPromise<Array<Recipe>> {
             return localVarFp.getAllRecipes(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get Calendar Events
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCalendarEvents(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.getCalendarEvents(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4360,13 +4549,13 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
         /**
          * 
          * @summary Get Quotes
-         * @param {number} [limit] 
          * @param {number} [skip] 
+         * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listQuotes(limit?: number, skip?: number, options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.listQuotes(limit, skip, options).then((request) => request(axios, basePath));
+        listQuotes(skip?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Quote>> {
+            return localVarFp.listQuotes(skip, limit, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4583,6 +4772,17 @@ export class MvgApi extends BaseAPI {
 
     /**
      * 
+     * @summary Get Calendar Events
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MvgApi
+     */
+    public getCalendarEvents(options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).getCalendarEvents(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Get Event
      * @param {number} id 
      * @param {*} [options] Override http request option.
@@ -4730,14 +4930,14 @@ export class MvgApi extends BaseAPI {
     /**
      * 
      * @summary Get Quotes
-     * @param {number} [limit] 
      * @param {number} [skip] 
+     * @param {number} [limit] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MvgApi
      */
-    public listQuotes(limit?: number, skip?: number, options?: RawAxiosRequestConfig) {
-        return MvgApiFp(this.configuration).listQuotes(limit, skip, options).then((request) => request(this.axios, this.basePath));
+    public listQuotes(skip?: number, limit?: number, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).listQuotes(skip, limit, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4893,12 +5093,12 @@ export const QuotesApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @summary Get Quotes
-         * @param {number} [limit] 
          * @param {number} [skip] 
+         * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listQuotes: async (limit?: number, skip?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listQuotes: async (skip?: number, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/quotes`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4911,12 +5111,12 @@ export const QuotesApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
             if (skip !== undefined) {
                 localVarQueryParameter['skip'] = skip;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
             }
 
 
@@ -4968,13 +5168,13 @@ export const QuotesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get Quotes
-         * @param {number} [limit] 
          * @param {number} [skip] 
+         * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listQuotes(limit?: number, skip?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listQuotes(limit, skip, options);
+        async listQuotes(skip?: number, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Quote>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listQuotes(skip, limit, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['QuotesApi.listQuotes']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -5011,13 +5211,13 @@ export const QuotesApiFactory = function (configuration?: Configuration, basePat
         /**
          * 
          * @summary Get Quotes
-         * @param {number} [limit] 
          * @param {number} [skip] 
+         * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listQuotes(limit?: number, skip?: number, options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.listQuotes(limit, skip, options).then((request) => request(axios, basePath));
+        listQuotes(skip?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Quote>> {
+            return localVarFp.listQuotes(skip, limit, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -5055,14 +5255,14 @@ export class QuotesApi extends BaseAPI {
     /**
      * 
      * @summary Get Quotes
-     * @param {number} [limit] 
      * @param {number} [skip] 
+     * @param {number} [limit] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof QuotesApi
      */
-    public listQuotes(limit?: number, skip?: number, options?: RawAxiosRequestConfig) {
-        return QuotesApiFp(this.configuration).listQuotes(limit, skip, options).then((request) => request(this.axios, this.basePath));
+    public listQuotes(skip?: number, limit?: number, options?: RawAxiosRequestConfig) {
+        return QuotesApiFp(this.configuration).listQuotes(skip, limit, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -5239,7 +5439,7 @@ export const RecipesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createRecipe(recipeCreate: RecipeCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async createRecipe(recipeCreate: RecipeCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Recipe>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createRecipe(recipeCreate, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RecipesApi.createRecipe']?.[localVarOperationServerIndex]?.url;
@@ -5253,7 +5453,7 @@ export const RecipesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteRecipe(recipeId?: number, recipeName?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async deleteRecipe(recipeId?: number, recipeName?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteRecipe(recipeId, recipeName, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RecipesApi.deleteRecipe']?.[localVarOperationServerIndex]?.url;
@@ -5301,7 +5501,7 @@ export const RecipesApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRecipe(recipeCreate: RecipeCreate, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        createRecipe(recipeCreate: RecipeCreate, options?: RawAxiosRequestConfig): AxiosPromise<Recipe> {
             return localVarFp.createRecipe(recipeCreate, options).then((request) => request(axios, basePath));
         },
         /**
@@ -5312,7 +5512,7 @@ export const RecipesApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteRecipe(recipeId?: number, recipeName?: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        deleteRecipe(recipeId?: number, recipeName?: string, options?: RawAxiosRequestConfig): AxiosPromise<object> {
             return localVarFp.deleteRecipe(recipeId, recipeName, options).then((request) => request(axios, basePath));
         },
         /**

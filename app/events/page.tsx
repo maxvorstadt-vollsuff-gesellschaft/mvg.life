@@ -67,7 +67,6 @@ export default function Home() {
       name: name as string,
       start_time: startTime as string,
       location: location as string,
-      author_id: author_id,
     }).then(() => {
       fetchEvents();
     });
@@ -188,6 +187,37 @@ export default function Home() {
               placeholder="Location"
               required
             />
+            <h3 className="text-lg font-semibold mb-2">Access Control</h3>
+            <label className="block text-sm text-gray-600 mb-1">Who can view this event?</label>
+            <select 
+              name="view_role" 
+              className="block w-full mb-4 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
+              required
+            >
+              <option value="guest">Guest</option>
+              <option value="mkm-member">MKM Member</option>
+              <option value="mvg-member">MVG Member</option>
+            </select>
+            <label className="block text-sm text-gray-600 mb-1">Who can edit this event?</label>
+            <select
+              name="edit_role" 
+              className="block w-full mb-4 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
+              required
+            >
+              <option value="guest">Guest</option>
+              <option value="mkm-member">MKM Member</option>
+              <option value="mvg-member">MVG Member</option>
+            </select>
+            <label className="block text-sm text-gray-600 mb-1">Who can participate in this event?</label>
+            <select 
+              name="participate_role" 
+              className="block w-full mb-4 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
+              required
+            >
+              <option value="guest">Guest</option>
+              <option value="mkm-member">MKM Member</option>
+              <option value="mvg-member">MVG Member</option>
+            </select>
             <DialogClose asChild>
               <Button type="submit" variant="secondary">
                 create
