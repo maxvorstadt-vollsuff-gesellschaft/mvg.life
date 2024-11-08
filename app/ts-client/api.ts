@@ -1727,15 +1727,12 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
          * 
          * @summary Participate
          * @param {number} eventId 
-         * @param {number} member 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addEventParticipant: async (eventId: number, member: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        addEventParticipant: async (eventId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'eventId' is not null or undefined
             assertParamExists('addEventParticipant', 'eventId', eventId)
-            // verify required parameter 'member' is not null or undefined
-            assertParamExists('addEventParticipant', 'member', member)
             const localVarPath = `/events/{event_id}/participate`
                 .replace(`{${"event_id"}}`, encodeURIComponent(String(eventId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1752,10 +1749,6 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             // authentication OAuth2PasswordBearer required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
-
-            if (member !== undefined) {
-                localVarQueryParameter['member'] = member;
-            }
 
 
     
@@ -1912,76 +1905,6 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
-         * @summary Get Next Event
-         * @param {number} [limit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getNextUpcomingEvent: async (limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/upcoming_events`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Events
-         * @param {number} [limit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getUpcomingEvents: async (limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/events/upcoming`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary Get Drinks For Event
          * @param {number} eventId 
          * @param {boolean} [grouped] 
@@ -2065,17 +1988,53 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
-         * @summary Remove Participant
-         * @param {number} eventId 
-         * @param {number} member 
+         * @summary Events
+         * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeEventParticipant: async (eventId: number, member: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listUpcomingEvents: async (limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/events/upcoming`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Remove Participant
+         * @param {number} eventId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        removeEventParticipant: async (eventId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'eventId' is not null or undefined
             assertParamExists('removeEventParticipant', 'eventId', eventId)
-            // verify required parameter 'member' is not null or undefined
-            assertParamExists('removeEventParticipant', 'member', member)
             const localVarPath = `/events/{event_id}/participate`
                 .replace(`{${"event_id"}}`, encodeURIComponent(String(eventId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2092,10 +2051,6 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             // authentication OAuth2PasswordBearer required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
-
-            if (member !== undefined) {
-                localVarQueryParameter['member'] = member;
-            }
 
 
     
@@ -2122,12 +2077,11 @@ export const EventsApiFp = function(configuration?: Configuration) {
          * 
          * @summary Participate
          * @param {number} eventId 
-         * @param {number} member 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async addEventParticipant(eventId: number, member: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.addEventParticipant(eventId, member, options);
+        async addEventParticipant(eventId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addEventParticipant(eventId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EventsApi.addEventParticipant']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -2185,32 +2139,6 @@ export const EventsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get Next Event
-         * @param {number} [limit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getNextUpcomingEvent(limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Event>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getNextUpcomingEvent(limit, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EventsApi.getNextUpcomingEvent']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Events
-         * @param {number} [limit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getUpcomingEvents(limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Event>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getUpcomingEvents(limit, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EventsApi.getUpcomingEvents']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
          * @summary Get Drinks For Event
          * @param {number} eventId 
          * @param {boolean} [grouped] 
@@ -2239,14 +2167,26 @@ export const EventsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Remove Participant
-         * @param {number} eventId 
-         * @param {number} member 
+         * @summary Events
+         * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async removeEventParticipant(eventId: number, member: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.removeEventParticipant(eventId, member, options);
+        async listUpcomingEvents(limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Event>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listUpcomingEvents(limit, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EventsApi.listUpcomingEvents']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Remove Participant
+         * @param {number} eventId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async removeEventParticipant(eventId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.removeEventParticipant(eventId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EventsApi.removeEventParticipant']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -2265,12 +2205,11 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
          * 
          * @summary Participate
          * @param {number} eventId 
-         * @param {number} member 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addEventParticipant(eventId: number, member: number, options?: RawAxiosRequestConfig): AxiosPromise<Event> {
-            return localVarFp.addEventParticipant(eventId, member, options).then((request) => request(axios, basePath));
+        addEventParticipant(eventId: number, options?: RawAxiosRequestConfig): AxiosPromise<Event> {
+            return localVarFp.addEventParticipant(eventId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2313,26 +2252,6 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
-         * @summary Get Next Event
-         * @param {number} [limit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getNextUpcomingEvent(limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Event>> {
-            return localVarFp.getNextUpcomingEvent(limit, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Events
-         * @param {number} [limit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getUpcomingEvents(limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Event>> {
-            return localVarFp.getUpcomingEvents(limit, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary Get Drinks For Event
          * @param {number} eventId 
          * @param {boolean} [grouped] 
@@ -2355,14 +2274,23 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
-         * @summary Remove Participant
-         * @param {number} eventId 
-         * @param {number} member 
+         * @summary Events
+         * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeEventParticipant(eventId: number, member: number, options?: RawAxiosRequestConfig): AxiosPromise<Event> {
-            return localVarFp.removeEventParticipant(eventId, member, options).then((request) => request(axios, basePath));
+        listUpcomingEvents(limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Event>> {
+            return localVarFp.listUpcomingEvents(limit, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Remove Participant
+         * @param {number} eventId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        removeEventParticipant(eventId: number, options?: RawAxiosRequestConfig): AxiosPromise<Event> {
+            return localVarFp.removeEventParticipant(eventId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2378,13 +2306,12 @@ export class EventsApi extends BaseAPI {
      * 
      * @summary Participate
      * @param {number} eventId 
-     * @param {number} member 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EventsApi
      */
-    public addEventParticipant(eventId: number, member: number, options?: RawAxiosRequestConfig) {
-        return EventsApiFp(this.configuration).addEventParticipant(eventId, member, options).then((request) => request(this.axios, this.basePath));
+    public addEventParticipant(eventId: number, options?: RawAxiosRequestConfig) {
+        return EventsApiFp(this.configuration).addEventParticipant(eventId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2436,30 +2363,6 @@ export class EventsApi extends BaseAPI {
 
     /**
      * 
-     * @summary Get Next Event
-     * @param {number} [limit] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof EventsApi
-     */
-    public getNextUpcomingEvent(limit?: number, options?: RawAxiosRequestConfig) {
-        return EventsApiFp(this.configuration).getNextUpcomingEvent(limit, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Events
-     * @param {number} [limit] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof EventsApi
-     */
-    public getUpcomingEvents(limit?: number, options?: RawAxiosRequestConfig) {
-        return EventsApiFp(this.configuration).getUpcomingEvents(limit, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
      * @summary Get Drinks For Event
      * @param {number} eventId 
      * @param {boolean} [grouped] 
@@ -2486,15 +2389,26 @@ export class EventsApi extends BaseAPI {
 
     /**
      * 
-     * @summary Remove Participant
-     * @param {number} eventId 
-     * @param {number} member 
+     * @summary Events
+     * @param {number} [limit] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EventsApi
      */
-    public removeEventParticipant(eventId: number, member: number, options?: RawAxiosRequestConfig) {
-        return EventsApiFp(this.configuration).removeEventParticipant(eventId, member, options).then((request) => request(this.axios, this.basePath));
+    public listUpcomingEvents(limit?: number, options?: RawAxiosRequestConfig) {
+        return EventsApiFp(this.configuration).listUpcomingEvents(limit, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Remove Participant
+     * @param {number} eventId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EventsApi
+     */
+    public removeEventParticipant(eventId: number, options?: RawAxiosRequestConfig) {
+        return EventsApiFp(this.configuration).removeEventParticipant(eventId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2688,15 +2602,12 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
          * 
          * @summary Participate
          * @param {number} eventId 
-         * @param {number} member 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addEventParticipant: async (eventId: number, member: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        addEventParticipant: async (eventId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'eventId' is not null or undefined
             assertParamExists('addEventParticipant', 'eventId', eventId)
-            // verify required parameter 'member' is not null or undefined
-            assertParamExists('addEventParticipant', 'member', member)
             const localVarPath = `/events/{event_id}/participate`
                 .replace(`{${"event_id"}}`, encodeURIComponent(String(eventId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2713,10 +2624,6 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
             // authentication OAuth2PasswordBearer required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
-
-            if (member !== undefined) {
-                localVarQueryParameter['member'] = member;
-            }
 
 
     
@@ -3242,41 +3149,6 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
         },
         /**
          * 
-         * @summary Get Next Event
-         * @param {number} [limit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getNextUpcomingEvent: async (limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/upcoming_events`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary Quote Of The Day
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3348,41 +3220,6 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
          */
         getTopChuggers: async (limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/chugs/top-player`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Events
-         * @param {number} [limit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getUpcomingEvents: async (limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/events/upcoming`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3641,6 +3478,45 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
         },
         /**
          * 
+         * @summary Events
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listUpcomingEvents: async (limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/events/upcoming`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Logout
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3817,15 +3693,12 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
          * 
          * @summary Remove Participant
          * @param {number} eventId 
-         * @param {number} member 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeEventParticipant: async (eventId: number, member: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        removeEventParticipant: async (eventId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'eventId' is not null or undefined
             assertParamExists('removeEventParticipant', 'eventId', eventId)
-            // verify required parameter 'member' is not null or undefined
-            assertParamExists('removeEventParticipant', 'member', member)
             const localVarPath = `/events/{event_id}/participate`
                 .replace(`{${"event_id"}}`, encodeURIComponent(String(eventId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -3842,10 +3715,6 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
             // authentication OAuth2PasswordBearer required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
-
-            if (member !== undefined) {
-                localVarQueryParameter['member'] = member;
-            }
 
 
     
@@ -3872,12 +3741,11 @@ export const MvgApiFp = function(configuration?: Configuration) {
          * 
          * @summary Participate
          * @param {number} eventId 
-         * @param {number} member 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async addEventParticipant(eventId: number, member: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.addEventParticipant(eventId, member, options);
+        async addEventParticipant(eventId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addEventParticipant(eventId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.addEventParticipant']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -4065,19 +3933,6 @@ export const MvgApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get Next Event
-         * @param {number} [limit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getNextUpcomingEvent(limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Event>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getNextUpcomingEvent(limit, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MvgApi.getNextUpcomingEvent']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
          * @summary Quote Of The Day
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4112,19 +3967,6 @@ export const MvgApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getTopChuggers(limit, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.getTopChuggers']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Events
-         * @param {number} [limit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getUpcomingEvents(limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Event>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getUpcomingEvents(limit, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MvgApi.getUpcomingEvents']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -4210,6 +4052,19 @@ export const MvgApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Events
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listUpcomingEvents(limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Event>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listUpcomingEvents(limit, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MvgApi.listUpcomingEvents']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Logout
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4275,12 +4130,11 @@ export const MvgApiFp = function(configuration?: Configuration) {
          * 
          * @summary Remove Participant
          * @param {number} eventId 
-         * @param {number} member 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async removeEventParticipant(eventId: number, member: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.removeEventParticipant(eventId, member, options);
+        async removeEventParticipant(eventId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.removeEventParticipant(eventId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.removeEventParticipant']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -4299,12 +4153,11 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
          * 
          * @summary Participate
          * @param {number} eventId 
-         * @param {number} member 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addEventParticipant(eventId: number, member: number, options?: RawAxiosRequestConfig): AxiosPromise<Event> {
-            return localVarFp.addEventParticipant(eventId, member, options).then((request) => request(axios, basePath));
+        addEventParticipant(eventId: number, options?: RawAxiosRequestConfig): AxiosPromise<Event> {
+            return localVarFp.addEventParticipant(eventId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4447,16 +4300,6 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
         },
         /**
          * 
-         * @summary Get Next Event
-         * @param {number} [limit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getNextUpcomingEvent(limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Event>> {
-            return localVarFp.getNextUpcomingEvent(limit, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary Quote Of The Day
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4483,16 +4326,6 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
          */
         getTopChuggers(limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<BaseChug>> {
             return localVarFp.getTopChuggers(limit, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Events
-         * @param {number} [limit] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getUpcomingEvents(limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Event>> {
-            return localVarFp.getUpcomingEvents(limit, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4559,6 +4392,16 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
         },
         /**
          * 
+         * @summary Events
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listUpcomingEvents(limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Event>> {
+            return localVarFp.listUpcomingEvents(limit, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Logout
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4609,12 +4452,11 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
          * 
          * @summary Remove Participant
          * @param {number} eventId 
-         * @param {number} member 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeEventParticipant(eventId: number, member: number, options?: RawAxiosRequestConfig): AxiosPromise<Event> {
-            return localVarFp.removeEventParticipant(eventId, member, options).then((request) => request(axios, basePath));
+        removeEventParticipant(eventId: number, options?: RawAxiosRequestConfig): AxiosPromise<Event> {
+            return localVarFp.removeEventParticipant(eventId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -4630,13 +4472,12 @@ export class MvgApi extends BaseAPI {
      * 
      * @summary Participate
      * @param {number} eventId 
-     * @param {number} member 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MvgApi
      */
-    public addEventParticipant(eventId: number, member: number, options?: RawAxiosRequestConfig) {
-        return MvgApiFp(this.configuration).addEventParticipant(eventId, member, options).then((request) => request(this.axios, this.basePath));
+    public addEventParticipant(eventId: number, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).addEventParticipant(eventId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4808,18 +4649,6 @@ export class MvgApi extends BaseAPI {
 
     /**
      * 
-     * @summary Get Next Event
-     * @param {number} [limit] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MvgApi
-     */
-    public getNextUpcomingEvent(limit?: number, options?: RawAxiosRequestConfig) {
-        return MvgApiFp(this.configuration).getNextUpcomingEvent(limit, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
      * @summary Quote Of The Day
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4851,18 +4680,6 @@ export class MvgApi extends BaseAPI {
      */
     public getTopChuggers(limit?: number, options?: RawAxiosRequestConfig) {
         return MvgApiFp(this.configuration).getTopChuggers(limit, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Events
-     * @param {number} [limit] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MvgApi
-     */
-    public getUpcomingEvents(limit?: number, options?: RawAxiosRequestConfig) {
-        return MvgApiFp(this.configuration).getUpcomingEvents(limit, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4942,6 +4759,18 @@ export class MvgApi extends BaseAPI {
 
     /**
      * 
+     * @summary Events
+     * @param {number} [limit] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MvgApi
+     */
+    public listUpcomingEvents(limit?: number, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).listUpcomingEvents(limit, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Logout
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5002,13 +4831,12 @@ export class MvgApi extends BaseAPI {
      * 
      * @summary Remove Participant
      * @param {number} eventId 
-     * @param {number} member 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MvgApi
      */
-    public removeEventParticipant(eventId: number, member: number, options?: RawAxiosRequestConfig) {
-        return MvgApiFp(this.configuration).removeEventParticipant(eventId, member, options).then((request) => request(this.axios, this.basePath));
+    public removeEventParticipant(eventId: number, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).removeEventParticipant(eventId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

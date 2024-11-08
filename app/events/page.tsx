@@ -43,13 +43,13 @@ export default function Home() {
   }, []);
 
   function participate(eventId: number) {
-    mvgApi.addEventParticipant(eventId, member.id).then(() => {
+    mvgApi.addEventParticipant(eventId).then(() => {
       fetchEvents();
     });
   }
 
   function leave(eventId: number) {
-    mvgApi.removeEventParticipant(eventId, member.id).then(() => {
+    mvgApi.removeEventParticipant(eventId).then(() => {
       fetchEvents();
     });
   }
