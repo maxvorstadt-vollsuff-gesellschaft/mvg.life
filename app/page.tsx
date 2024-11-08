@@ -25,7 +25,7 @@ export default function Home() {
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    mvgApi.getUpcomingEvents().then((response) => {
+    mvgApi.listUpcomingEvents().then((response) => {
       setNextEvents(response.data);
     });
 
