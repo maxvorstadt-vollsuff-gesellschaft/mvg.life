@@ -51,14 +51,15 @@ export default function Recipes() {
     const time = formData.get("time");
     const situation = formData.get("situation");
     const author_id = member.id;
+    const image = formData.get("image");
 
-    mvgApi.createRecipe({
-      name: name as string,
-      description: description as string,
-      time: parseInt(time as string),
-      situation: situation as Situation,
-      author_id: author_id,
-    }).then(() => {
+    mvgApi.createRecipe(
+      name as string,
+      situation as Situation,
+      description as string,
+      parseInt(time as string),
+      image as File,
+    ).then(() => {
       fetchRecipes();
     });
   }
@@ -82,14 +83,21 @@ export default function Recipes() {
 
       <ul className="font-mono text-cyan-950 mb-8">
         {recipes &&
-          recipes.map(({ id, name, description, author, time }) => (
+          recipes.map(({ id, name, description, author, time, image_url }) => (
             <li
               className="mb-6 lg:mb-4 md:mb-4 border-l-gray-500 border-l-2 pl-1"
               key={id}
             >
-              <span className="text-amber-800">{name} ({time} min)</span>
-              <p className="whitespace-nowrap overflow-hidden text-ellipsis">{description}</p>
-              <span className="text-gray-500">by {author?.name}</span>
+              <div className="flex gap-4 items-center">
+                <div className="w-24 h-24 bg-gray-200 rounded-md flex-shrink-0">
+                  <img style={{width: "100%", height: "100%", borderRadius: "0.375rem"}} src={image_url ?? ""}></img>
+                </div>
+                <div>
+                  <span className="text-amber-800">{name} ({time} min)</span>
+                  <p className="whitespace-nowrap overflow-hidden text-ellipsis">{description}</p>
+                  <span className="text-gray-500">by {author?.name}</span>
+                </div>
+              </div>
             </li>
           ))}
       </ul>
@@ -143,6 +151,14 @@ export default function Recipes() {
                 </option>
               ))}
             </select>
+            <Input
+              type="file"
+              className="block mb-4"
+              name="image"
+              accept="image/*"
+              capture="environment"
+              placeholder="Upload image"
+            />
             <DialogClose asChild>
               <Button type="submit" variant="secondary">
                 create

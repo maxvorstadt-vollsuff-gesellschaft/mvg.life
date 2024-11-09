@@ -422,45 +422,12 @@ export interface Recipe {
      * @memberof Recipe
      */
     'author': Member | null;
-}
-
-
-/**
- * 
- * @export
- * @interface RecipeCreate
- */
-export interface RecipeCreate {
     /**
      * 
      * @type {string}
-     * @memberof RecipeCreate
+     * @memberof Recipe
      */
-    'name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RecipeCreate
-     */
-    'description'?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof RecipeCreate
-     */
-    'time': number | null;
-    /**
-     * 
-     * @type {Situation}
-     * @memberof RecipeCreate
-     */
-    'situation': Situation;
-    /**
-     * 
-     * @type {number}
-     * @memberof RecipeCreate
-     */
-    'author_id': number | null;
+    'image_url': string | null;
 }
 
 
@@ -2831,13 +2798,23 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
         /**
          * 
          * @summary Create Recipe
-         * @param {RecipeCreate} recipeCreate 
+         * @param {string} name 
+         * @param {Situation} situation 
+         * @param {string} description 
+         * @param {number} time 
+         * @param {File | null} [image] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRecipe: async (recipeCreate: RecipeCreate, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'recipeCreate' is not null or undefined
-            assertParamExists('createRecipe', 'recipeCreate', recipeCreate)
+        createRecipe: async (name: string, situation: Situation, description: string, time: number, image?: File | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'name' is not null or undefined
+            assertParamExists('createRecipe', 'name', name)
+            // verify required parameter 'situation' is not null or undefined
+            assertParamExists('createRecipe', 'situation', situation)
+            // verify required parameter 'description' is not null or undefined
+            assertParamExists('createRecipe', 'description', description)
+            // verify required parameter 'time' is not null or undefined
+            assertParamExists('createRecipe', 'time', time)
             const localVarPath = `/recipes`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2849,19 +2826,40 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
 
             // authentication OAuth2PasswordBearer required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
 
+            if (name !== undefined) {
+                localVarQueryParameter['name'] = name;
+            }
 
+            if (situation !== undefined) {
+                localVarQueryParameter['situation'] = situation;
+            }
+
+            if (description !== undefined) {
+                localVarQueryParameter['description'] = description;
+            }
+
+            if (time !== undefined) {
+                localVarQueryParameter['time'] = time;
+            }
+
+
+            if (image !== undefined) { 
+                localVarFormParams.append('image', image as any);
+            }
     
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(recipeCreate, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = localVarFormParams;
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -3727,6 +3725,47 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Upload Recipe Image
+         * @param {File} image 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadRecipeImage: async (image: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'image' is not null or undefined
+            assertParamExists('uploadRecipeImage', 'image', image)
+            const localVarPath = `/recipes/image`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+
+            if (image !== undefined) { 
+                localVarFormParams.append('image', image as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -3818,12 +3857,16 @@ export const MvgApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Create Recipe
-         * @param {RecipeCreate} recipeCreate 
+         * @param {string} name 
+         * @param {Situation} situation 
+         * @param {string} description 
+         * @param {number} time 
+         * @param {File | null} [image] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createRecipe(recipeCreate: RecipeCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Recipe>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createRecipe(recipeCreate, options);
+        async createRecipe(name: string, situation: Situation, description: string, time: number, image?: File | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Recipe>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createRecipe(name, situation, description, time, image, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.createRecipe']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -4139,6 +4182,19 @@ export const MvgApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['MvgApi.removeEventParticipant']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @summary Upload Recipe Image
+         * @param {File} image 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async uploadRecipeImage(image: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadRecipeImage(image, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MvgApi.uploadRecipeImage']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -4212,12 +4268,16 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
         /**
          * 
          * @summary Create Recipe
-         * @param {RecipeCreate} recipeCreate 
+         * @param {string} name 
+         * @param {Situation} situation 
+         * @param {string} description 
+         * @param {number} time 
+         * @param {File | null} [image] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRecipe(recipeCreate: RecipeCreate, options?: RawAxiosRequestConfig): AxiosPromise<Recipe> {
-            return localVarFp.createRecipe(recipeCreate, options).then((request) => request(axios, basePath));
+        createRecipe(name: string, situation: Situation, description: string, time: number, image?: File | null, options?: RawAxiosRequestConfig): AxiosPromise<Recipe> {
+            return localVarFp.createRecipe(name, situation, description, time, image, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4458,6 +4518,16 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
         removeEventParticipant(eventId: number, options?: RawAxiosRequestConfig): AxiosPromise<Event> {
             return localVarFp.removeEventParticipant(eventId, options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @summary Upload Recipe Image
+         * @param {File} image 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadRecipeImage(image: File, options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.uploadRecipeImage(image, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -4543,13 +4613,17 @@ export class MvgApi extends BaseAPI {
     /**
      * 
      * @summary Create Recipe
-     * @param {RecipeCreate} recipeCreate 
+     * @param {string} name 
+     * @param {Situation} situation 
+     * @param {string} description 
+     * @param {number} time 
+     * @param {File | null} [image] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MvgApi
      */
-    public createRecipe(recipeCreate: RecipeCreate, options?: RawAxiosRequestConfig) {
-        return MvgApiFp(this.configuration).createRecipe(recipeCreate, options).then((request) => request(this.axios, this.basePath));
+    public createRecipe(name: string, situation: Situation, description: string, time: number, image?: File | null, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).createRecipe(name, situation, description, time, image, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4838,6 +4912,18 @@ export class MvgApi extends BaseAPI {
     public removeEventParticipant(eventId: number, options?: RawAxiosRequestConfig) {
         return MvgApiFp(this.configuration).removeEventParticipant(eventId, options).then((request) => request(this.axios, this.basePath));
     }
+
+    /**
+     * 
+     * @summary Upload Recipe Image
+     * @param {File} image 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MvgApi
+     */
+    public uploadRecipeImage(image: File, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).uploadRecipeImage(image, options).then((request) => request(this.axios, this.basePath));
+    }
 }
 
 
@@ -5105,13 +5191,23 @@ export const RecipesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary Create Recipe
-         * @param {RecipeCreate} recipeCreate 
+         * @param {string} name 
+         * @param {Situation} situation 
+         * @param {string} description 
+         * @param {number} time 
+         * @param {File | null} [image] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRecipe: async (recipeCreate: RecipeCreate, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'recipeCreate' is not null or undefined
-            assertParamExists('createRecipe', 'recipeCreate', recipeCreate)
+        createRecipe: async (name: string, situation: Situation, description: string, time: number, image?: File | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'name' is not null or undefined
+            assertParamExists('createRecipe', 'name', name)
+            // verify required parameter 'situation' is not null or undefined
+            assertParamExists('createRecipe', 'situation', situation)
+            // verify required parameter 'description' is not null or undefined
+            assertParamExists('createRecipe', 'description', description)
+            // verify required parameter 'time' is not null or undefined
+            assertParamExists('createRecipe', 'time', time)
             const localVarPath = `/recipes`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5123,19 +5219,40 @@ export const RecipesApiAxiosParamCreator = function (configuration?: Configurati
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
 
             // authentication OAuth2PasswordBearer required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
 
+            if (name !== undefined) {
+                localVarQueryParameter['name'] = name;
+            }
 
+            if (situation !== undefined) {
+                localVarQueryParameter['situation'] = situation;
+            }
+
+            if (description !== undefined) {
+                localVarQueryParameter['description'] = description;
+            }
+
+            if (time !== undefined) {
+                localVarQueryParameter['time'] = time;
+            }
+
+
+            if (image !== undefined) { 
+                localVarFormParams.append('image', image as any);
+            }
     
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(recipeCreate, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = localVarFormParams;
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -5250,6 +5367,47 @@ export const RecipesApiAxiosParamCreator = function (configuration?: Configurati
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Upload Recipe Image
+         * @param {File} image 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadRecipeImage: async (image: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'image' is not null or undefined
+            assertParamExists('uploadRecipeImage', 'image', image)
+            const localVarPath = `/recipes/image`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+
+            if (image !== undefined) { 
+                localVarFormParams.append('image', image as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -5263,12 +5421,16 @@ export const RecipesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Create Recipe
-         * @param {RecipeCreate} recipeCreate 
+         * @param {string} name 
+         * @param {Situation} situation 
+         * @param {string} description 
+         * @param {number} time 
+         * @param {File | null} [image] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createRecipe(recipeCreate: RecipeCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Recipe>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createRecipe(recipeCreate, options);
+        async createRecipe(name: string, situation: Situation, description: string, time: number, image?: File | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Recipe>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createRecipe(name, situation, description, time, image, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RecipesApi.createRecipe']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -5312,6 +5474,19 @@ export const RecipesApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['RecipesApi.getRecipeById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @summary Upload Recipe Image
+         * @param {File} image 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async uploadRecipeImage(image: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadRecipeImage(image, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RecipesApi.uploadRecipeImage']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -5325,12 +5500,16 @@ export const RecipesApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary Create Recipe
-         * @param {RecipeCreate} recipeCreate 
+         * @param {string} name 
+         * @param {Situation} situation 
+         * @param {string} description 
+         * @param {number} time 
+         * @param {File | null} [image] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRecipe(recipeCreate: RecipeCreate, options?: RawAxiosRequestConfig): AxiosPromise<Recipe> {
-            return localVarFp.createRecipe(recipeCreate, options).then((request) => request(axios, basePath));
+        createRecipe(name: string, situation: Situation, description: string, time: number, image?: File | null, options?: RawAxiosRequestConfig): AxiosPromise<Recipe> {
+            return localVarFp.createRecipe(name, situation, description, time, image, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -5362,6 +5541,16 @@ export const RecipesApiFactory = function (configuration?: Configuration, basePa
         getRecipeById(recipeId: number, options?: RawAxiosRequestConfig): AxiosPromise<Recipe> {
             return localVarFp.getRecipeById(recipeId, options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @summary Upload Recipe Image
+         * @param {File} image 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadRecipeImage(image: File, options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.uploadRecipeImage(image, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -5375,13 +5564,17 @@ export class RecipesApi extends BaseAPI {
     /**
      * 
      * @summary Create Recipe
-     * @param {RecipeCreate} recipeCreate 
+     * @param {string} name 
+     * @param {Situation} situation 
+     * @param {string} description 
+     * @param {number} time 
+     * @param {File | null} [image] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RecipesApi
      */
-    public createRecipe(recipeCreate: RecipeCreate, options?: RawAxiosRequestConfig) {
-        return RecipesApiFp(this.configuration).createRecipe(recipeCreate, options).then((request) => request(this.axios, this.basePath));
+    public createRecipe(name: string, situation: Situation, description: string, time: number, image?: File | null, options?: RawAxiosRequestConfig) {
+        return RecipesApiFp(this.configuration).createRecipe(name, situation, description, time, image, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5418,6 +5611,18 @@ export class RecipesApi extends BaseAPI {
      */
     public getRecipeById(recipeId: number, options?: RawAxiosRequestConfig) {
         return RecipesApiFp(this.configuration).getRecipeById(recipeId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Upload Recipe Image
+     * @param {File} image 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RecipesApi
+     */
+    public uploadRecipeImage(image: File, options?: RawAxiosRequestConfig) {
+        return RecipesApiFp(this.configuration).uploadRecipeImage(image, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
