@@ -62,12 +62,14 @@ export default function Home() {
     const startTime = formData.get("start_time");
     const location = formData.get("location");
     const name = formData.get("name");
+    const duration = formData.get("duration");
     const author_id = member.id;
 
     mvgApi.createEvent({
       name: name as string,
       start_time: startTime as string,
       location: location as string,
+      duration: Number(duration),
       view_role: formData.get("view_role") as Roles,
       edit_role: formData.get("edit_role") as Roles,
       participate_role: formData.get("participate_role") as Roles,
@@ -205,6 +207,14 @@ export default function Home() {
               className="block mb-4"
               name="start_time"
               placeholder="Start time"
+              required
+            />
+            <Input
+              type="number"
+              className="block mb-4"
+              name="duration"
+              placeholder="Duration (minutes)"
+              min="0"
               required
             />
             <Input
