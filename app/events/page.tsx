@@ -126,7 +126,7 @@ export default function Home() {
 
       <ul className="font-mono text-cyan-950 mb-8">
         {events &&
-          events.map(({ id, name, start_time, participants, location, author }) => (
+          events.map(({ id, name, start_time, participants, location, author, duration }) => (
             <li
               className="mb-6 lg:mb-4 md:mb-4 border-l-gray-500 border-l-2 pl-1"
               key={id}
@@ -134,11 +134,15 @@ export default function Home() {
               <span className="text-amber-800">
                 {new Date(start_time).toLocaleDateString("de-DE")}:
               </span>{" "}
-              {name} (Start{" "}
+              {name} (
               {new Date(start_time).toLocaleTimeString("de-DE", {
                 hour: "2-digit",
                 minute: "2-digit",
               })}
+              {duration && `-${new Date(new Date(start_time).getTime() + duration * 60000).toLocaleTimeString("de-DE", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}`}
               )<p />
               {participants.some((p) => p.user_sub === member.user_sub) ? (
                 <button
