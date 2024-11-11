@@ -110,6 +110,7 @@ export default function Recipes() {
                         </Link>
                         <button
                           onClick={() => deleteRecipe(id)}
+                          className="text-red-600 mr-1"
                         >
                           [Delete]
                         </button>
