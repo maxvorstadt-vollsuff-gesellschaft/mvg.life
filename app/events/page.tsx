@@ -24,7 +24,7 @@ import { Event } from "../ts-client";
 
 export default function Home() {
   const [events, setEvents] = useState<Event[]>([]);
-  const [member, setMember] = useState<Member>({ name: "", id: -1 });
+  const [member, setMember] = useState<Member>({ name: "", id: -1, user_sub: "" });
   const [icalLink, setIcalLink] = useState<string>("");
 
   useEffect(() => {
@@ -135,7 +135,7 @@ export default function Home() {
                 minute: "2-digit",
               })}
               )<p />
-              {participants.some((p) => p.id === member.id) ? (
+              {participants.some((p) => p.user_sub === member.user_sub) ? (
                 <button
                   onClick={() => {
                     leave(id);

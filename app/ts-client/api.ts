@@ -311,6 +311,12 @@ export interface Member {
      * @memberof Member
      */
     'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Member
+     */
+    'user_sub': string;
 }
 /**
  * 
@@ -1729,7 +1735,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
-         * 
+         * Create a calendar link for the user. If the user already has a link, the existing link is returned.
          * @summary Create Calendar Link
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2092,7 +2098,7 @@ export const EventsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         * Create a calendar link for the user. If the user already has a link, the existing link is returned.
          * @summary Create Calendar Link
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2230,7 +2236,7 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
             return localVarFp.addEventParticipant(eventId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         * Create a calendar link for the user. If the user already has a link, the existing link is returned.
          * @summary Create Calendar Link
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2343,7 +2349,7 @@ export class EventsApi extends BaseAPI {
     }
 
     /**
-     * 
+     * Create a calendar link for the user. If the user already has a link, the existing link is returned.
      * @summary Create Calendar Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2677,7 +2683,7 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
             };
         },
         /**
-         * 
+         * Create a calendar link for the user. If the user already has a link, the existing link is returned.
          * @summary Create Calendar Link
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3901,7 +3907,7 @@ export const MvgApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         * Create a calendar link for the user. If the user already has a link, the existing link is returned.
          * @summary Create Calendar Link
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4340,7 +4346,7 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
             return localVarFp.addEventParticipant(eventId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         * Create a calendar link for the user. If the user already has a link, the existing link is returned.
          * @summary Create Calendar Link
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4685,7 +4691,7 @@ export class MvgApi extends BaseAPI {
     }
 
     /**
-     * 
+     * Create a calendar link for the user. If the user already has a link, the existing link is returned.
      * @summary Create Calendar Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

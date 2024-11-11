@@ -24,7 +24,7 @@ type TimeOfDay = "breakfast" | "lunch" | "dinner";
 
 export default function Recipes() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [member, setMember] = useState<Member>({ name: "", id: -1 });
+  const [member, setMember] = useState<Member>({ name: "", id: -1, user_sub: "" });
 
   useEffect(() => {
     fetchRecipes();
