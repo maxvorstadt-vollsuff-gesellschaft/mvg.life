@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { mvgApi } from "../mvg-api";
-import { Member } from "../ts-client";
+import { Member, Roles } from "../ts-client";
 import { Event } from "../ts-client";
 
 export default function Home() {
@@ -68,6 +68,9 @@ export default function Home() {
       name: name as string,
       start_time: startTime as string,
       location: location as string,
+      view_role: formData.get("view_role") as Roles,
+      edit_role: formData.get("edit_role") as Roles,
+      participate_role: formData.get("participate_role") as Roles,
     }).then(() => {
       fetchEvents();
     });
