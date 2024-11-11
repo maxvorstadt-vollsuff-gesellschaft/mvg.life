@@ -25,6 +25,9 @@ type TimeOfDay = "breakfast" | "lunch" | "dinner";
 export default function Recipes() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [member, setMember] = useState<Member>({ name: "", id: -1, user_sub: "" });
+  const [timeFilter, setTimeFilter] = useState<number | ''>('');
+  const [situationFilter, setSituationFilter] = useState<Situation | ''>('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetchRecipes();
@@ -70,6 +73,15 @@ export default function Recipes() {
     });
   }
 
+  const filteredRecipes = recipes.filter(recipe => {
+    const matchesTime = !timeFilter || (recipe.time !== null && recipe.time <= timeFilter);
+    const matchesSituation = !situationFilter || recipe.situation === situationFilter;
+    const matchesSearch = !searchQuery || 
+      recipe.name.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    return matchesTime && matchesSituation && matchesSearch;
+  });
+
   return (
     <div className="px-6 py-6 sm:px-24 sm:py-12">
       <h1 className="font-bold text-4xl text-amber-800">Recipes</h1>
@@ -87,42 +99,70 @@ export default function Recipes() {
         <p className="mb-4 font-mono">[Logged in as {member.name}]</p>
       )}
 
-      <ul className="font-mono text-cyan-950 mb-8">
-        {recipes &&
-          recipes.map(({ id, name, description, author, time, image_url }) => (
-            <li
-              className="mb-6 lg:mb-4 md:mb-4 border-l-gray-500 border-l-2 pl-1"
-              key={id}
-            >
-              <div className="flex gap-4 items-center">
-                <div className="w-24 h-24 bg-gray-200 rounded-md flex-shrink-0">
-                  <img style={{width: "100%", height: "100%", borderRadius: "0.375rem"}} src={image_url ?? ""}></img>
-                </div>
-                <div>
-                  <span className="text-amber-800">{name} ({time} min)
-                    <Link href={`/recipes/${id}`} className="font-mono text-blue-600">
-                      [view]
-                    </Link>
-                    {author?.id === member.id && (
-                      <>
-                        <Link href={`/recipes/${id}/edit`} className="font-mono text-blue-600">
-                          [edit]
-                        </Link>
-                        <button
-                          onClick={() => deleteRecipe(id)}
-                          className="text-red-600 mr-1"
-                        >
-                          [Delete]
-                        </button>
-                      </>
-                    )}
-                  </span>
-                  <p className="whitespace-nowrap overflow-hidden text-ellipsis">{description}</p>
-                  <p className="text-gray-500">by {author?.name}</p>
-                </div>
-              </div>
-            </li>
+      <div className="mb-6 flex flex-wrap gap-4">
+        <Input
+          type="text"
+          placeholder="Search recipes..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="max-w-xs"
+        />
+        <Input
+          type="number"
+          placeholder="Max time (minutes)"
+          value={timeFilter}
+          onChange={(e) => setTimeFilter(e.target.value ? Number(e.target.value) : '')}
+          className="max-w-xs"
+        />
+        <select 
+          value={situationFilter}
+          onChange={(e) => setSituationFilter(e.target.value as Situation | '')}
+          className="rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background max-w-xs"
+        >
+          <option value="">All situations</option>
+          {Object.values(Situation).map((situation) => (
+            <option key={situation} value={situation}>
+              {situation.charAt(0).toUpperCase() + situation.slice(1)}
+            </option>
           ))}
+        </select>
+      </div>
+
+      <ul className="font-mono text-cyan-950 mb-8">
+        {filteredRecipes.map(({ id, name, description, author, time, image_url }) => (
+          <li
+            className="mb-6 lg:mb-4 md:mb-4 border-l-gray-500 border-l-2 pl-1"
+            key={id}
+          >
+            <div className="flex gap-4 items-center">
+              <div className="w-24 h-24 bg-gray-200 rounded-md flex-shrink-0">
+                <img style={{width: "100%", height: "100%", borderRadius: "0.375rem"}} src={image_url ?? ""}></img>
+              </div>
+              <div>
+                <span className="text-amber-800">{name} ({time} min)
+                  <Link href={`/recipes/${id}`} className="font-mono text-blue-600">
+                    [view]
+                  </Link>
+                  {author?.id === member.id && (
+                    <>
+                      <Link href={`/recipes/${id}/edit`} className="font-mono text-blue-600">
+                        [edit]
+                      </Link>
+                      <button
+                        onClick={() => deleteRecipe(id)}
+                        className="text-red-600 mr-1"
+                      >
+                        [Delete]
+                      </button>
+                    </>
+                  )}
+                </span>
+                <p className="whitespace-nowrap overflow-hidden text-ellipsis">{description}</p>
+                <p className="text-gray-500">by {author?.name}</p>
+              </div>
+            </div>
+          </li>
+        ))}
       </ul>
 
       <Link href="/" className="font-mono">
