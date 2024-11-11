@@ -25,6 +25,7 @@ import { Event } from "../ts-client";
 export default function Home() {
   const [events, setEvents] = useState<Event[]>([]);
   const [member, setMember] = useState<Member>({ name: "", id: -1 });
+  const [icalLink, setIcalLink] = useState<string>("");
 
   useEffect(() => {
     fetchEvents();
@@ -78,6 +79,12 @@ export default function Home() {
     });
   }
 
+  function createIcalLink() {
+    mvgApi.createCalendarLink().then(({data}) => {
+      setIcalLink(data);
+    });
+  }
+
   return (
     <div className="px-6 py-6 sm:px-24 sm:py-12">
       <h1 className="font-bold text-4xl text-amber-800">Events</h1>
@@ -92,7 +99,24 @@ export default function Home() {
         </p>
       )}
       {member.id !== -1 && (
-        <p className="mb-4 font-mono">[Logged in as {member.name}]</p>
+        <>
+          <p className="mb-4 font-mono">[Logged in as {member.name}] <Dialog>
+            <DialogTrigger className="font-mono text-green-600" onClick={createIcalLink}>
+              [Generate iCal Link]
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Your personal iCal Link</DialogTitle>
+                <DialogDescription>
+                  Copy this link and add it to your calendar app.
+                </DialogDescription>
+              </DialogHeader>
+              <p onClick={() => navigator.clipboard.writeText(icalLink)}>
+                {icalLink}
+              </p>
+            </DialogContent>
+          </Dialog></p>
+        </>
       )}
 
       <ul className="font-mono text-cyan-950 mb-8">

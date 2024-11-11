@@ -64,6 +64,12 @@ export default function Recipes() {
     });
   }
 
+  function deleteRecipe(id: number) {
+    mvgApi.deleteRecipe(id).then(() => {
+      fetchRecipes();
+    });
+  }
+
   return (
     <div className="px-6 py-6 sm:px-24 sm:py-12">
       <h1 className="font-bold text-4xl text-amber-800">Recipes</h1>
@@ -93,9 +99,23 @@ export default function Recipes() {
                   <img style={{width: "100%", height: "100%", borderRadius: "0.375rem"}} src={image_url ?? ""}></img>
                 </div>
                 <div>
-                  <span className="text-amber-800">{name} ({time} min)</span>
+                  <span className="text-amber-800">{name} ({time} min)
+                    <Link href={`/recipes/${id}`} className="font-mono text-blue-600">
+                      [view]
+                    </Link>
+                    {author?.id === member.id && (
+                      <>
+                        <Link href={`/recipes/${id}/edit`} className="font-mono text-blue-600">
+                          [edit]
+                        </Link>
+                        <Button variant="destructive" onClick={() => deleteRecipe(id)}>
+                          [delete]
+                        </Button>
+                      </>
+                    )}
+                  </span>
                   <p className="whitespace-nowrap overflow-hidden text-ellipsis">{description}</p>
-                  <span className="text-gray-500">by {author?.name}</span>
+                  <p className="text-gray-500">by {author?.name}</p>
                 </div>
               </div>
             </li>

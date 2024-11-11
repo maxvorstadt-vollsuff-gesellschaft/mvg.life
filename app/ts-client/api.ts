@@ -412,6 +412,12 @@ export interface Recipe {
     'situation': Situation;
     /**
      * 
+     * @type {string}
+     * @memberof Recipe
+     */
+    'image_url': string | null;
+    /**
+     * 
      * @type {number}
      * @memberof Recipe
      */
@@ -422,12 +428,6 @@ export interface Recipe {
      * @memberof Recipe
      */
     'author': Member | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof Recipe
-     */
-    'image_url': string | null;
 }
 
 
@@ -1730,6 +1730,40 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @summary Create Calendar Link
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createCalendarLink: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/events/calendar`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Create Event
          * @param {EventCreate} eventCreate 
          * @param {*} [options] Override http request option.
@@ -1809,11 +1843,15 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @summary Get Calendar Events
+         * @param {string} tag 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCalendarEvents: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/events/calendar`;
+        getCalendarEvents: async (tag: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'tag' is not null or undefined
+            assertParamExists('getCalendarEvents', 'tag', tag)
+            const localVarPath = `/events/calendar/{tag}`
+                .replace(`{${"tag"}}`, encodeURIComponent(String(tag)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2055,6 +2093,18 @@ export const EventsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Create Calendar Link
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createCalendarLink(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createCalendarLink(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EventsApi.createCalendarLink']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Create Event
          * @param {EventCreate} eventCreate 
          * @param {*} [options] Override http request option.
@@ -2082,11 +2132,12 @@ export const EventsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get Calendar Events
+         * @param {string} tag 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCalendarEvents(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCalendarEvents(options);
+        async getCalendarEvents(tag: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCalendarEvents(tag, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EventsApi.getCalendarEvents']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -2180,6 +2231,15 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
+         * @summary Create Calendar Link
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createCalendarLink(options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.createCalendarLink(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Create Event
          * @param {EventCreate} eventCreate 
          * @param {*} [options] Override http request option.
@@ -2201,11 +2261,12 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
         /**
          * 
          * @summary Get Calendar Events
+         * @param {string} tag 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCalendarEvents(options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.getCalendarEvents(options).then((request) => request(axios, basePath));
+        getCalendarEvents(tag: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.getCalendarEvents(tag, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2283,6 +2344,17 @@ export class EventsApi extends BaseAPI {
 
     /**
      * 
+     * @summary Create Calendar Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EventsApi
+     */
+    public createCalendarLink(options?: RawAxiosRequestConfig) {
+        return EventsApiFp(this.configuration).createCalendarLink(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Create Event
      * @param {EventCreate} eventCreate 
      * @param {*} [options] Override http request option.
@@ -2308,12 +2380,13 @@ export class EventsApi extends BaseAPI {
     /**
      * 
      * @summary Get Calendar Events
+     * @param {string} tag 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EventsApi
      */
-    public getCalendarEvents(options?: RawAxiosRequestConfig) {
-        return EventsApiFp(this.configuration).getCalendarEvents(options).then((request) => request(this.axios, this.basePath));
+    public getCalendarEvents(tag: string, options?: RawAxiosRequestConfig) {
+        return EventsApiFp(this.configuration).getCalendarEvents(tag, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2577,6 +2650,40 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
             assertParamExists('addEventParticipant', 'eventId', eventId)
             const localVarPath = `/events/{event_id}/participate`
                 .replace(`{${"event_id"}}`, encodeURIComponent(String(eventId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Create Calendar Link
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createCalendarLink: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/events/calendar`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3045,11 +3152,15 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
         /**
          * 
          * @summary Get Calendar Events
+         * @param {string} tag 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCalendarEvents: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/events/calendar`;
+        getCalendarEvents: async (tag: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'tag' is not null or undefined
+            assertParamExists('getCalendarEvents', 'tag', tag)
+            const localVarPath = `/events/calendar/{tag}`
+                .replace(`{${"tag"}}`, encodeURIComponent(String(tag)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3791,6 +3902,18 @@ export const MvgApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Create Calendar Link
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createCalendarLink(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createCalendarLink(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MvgApi.createCalendarLink']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Create Event
          * @param {UploadChug} uploadChug 
          * @param {*} [options] Override http request option.
@@ -3938,11 +4061,12 @@ export const MvgApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get Calendar Events
+         * @param {string} tag 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCalendarEvents(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCalendarEvents(options);
+        async getCalendarEvents(tag: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCalendarEvents(tag, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.getCalendarEvents']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -4217,6 +4341,15 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
         },
         /**
          * 
+         * @summary Create Calendar Link
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createCalendarLink(options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.createCalendarLink(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Create Event
          * @param {UploadChug} uploadChug 
          * @param {*} [options] Override http request option.
@@ -4331,11 +4464,12 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
         /**
          * 
          * @summary Get Calendar Events
+         * @param {string} tag 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCalendarEvents(options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.getCalendarEvents(options).then((request) => request(axios, basePath));
+        getCalendarEvents(tag: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.getCalendarEvents(tag, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4552,6 +4686,17 @@ export class MvgApi extends BaseAPI {
 
     /**
      * 
+     * @summary Create Calendar Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MvgApi
+     */
+    public createCalendarLink(options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).createCalendarLink(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Create Event
      * @param {UploadChug} uploadChug 
      * @param {*} [options] Override http request option.
@@ -4688,12 +4833,13 @@ export class MvgApi extends BaseAPI {
     /**
      * 
      * @summary Get Calendar Events
+     * @param {string} tag 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MvgApi
      */
-    public getCalendarEvents(options?: RawAxiosRequestConfig) {
-        return MvgApiFp(this.configuration).getCalendarEvents(options).then((request) => request(this.axios, this.basePath));
+    public getCalendarEvents(tag: string, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).getCalendarEvents(tag, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
