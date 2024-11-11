@@ -108,9 +108,11 @@ export default function Recipes() {
                         <Link href={`/recipes/${id}/edit`} className="font-mono text-blue-600">
                           [edit]
                         </Link>
-                        <Button variant="destructive" onClick={() => deleteRecipe(id)}>
-                          [delete]
-                        </Button>
+                        <button
+                          onClick={() => deleteRecipe(id)}
+                        >
+                          [Delete]
+                        </button>
                       </>
                     )}
                   </span>
