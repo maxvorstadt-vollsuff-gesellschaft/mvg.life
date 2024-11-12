@@ -22,19 +22,31 @@ import { mvgApi } from "../mvg-api";
 import { Member, Roles } from "../ts-client";
 import { Event } from "../ts-client";
 
+enum Type {
+  Past,
+  Upcoming,
+}
+
 export default function Home() {
   const [events, setEvents] = useState<Event[]>([]);
   const [member, setMember] = useState<Member>({ name: "", id: -1, user_sub: "" });
   const [icalLink, setIcalLink] = useState<string>("");
+  const [type, setType] = useState<Type>(Type.Upcoming);
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [type]);
 
   function fetchEvents() {
-    mvgApi.listEvents().then(({data}) => {
-      setEvents(data);
-    });
+    if (type === Type.Upcoming) {
+      mvgApi.listUpcomingEvents().then(({data}) => {
+        setEvents(data);
+      });
+    } else {
+      mvgApi.listPastEvents().then(({data}) => {
+        setEvents(data);
+      });
+    }
   }
 
   useEffect(() => {
@@ -123,6 +135,14 @@ export default function Home() {
           </Dialog></p>
         </>
       )}
+      <p className="font-mono text-cyan-950 mb-8">
+        <button 
+          onClick={() => setType(type === Type.Upcoming ? Type.Past : Type.Upcoming)}
+          className="font-mono"
+        >
+          [Show {type === Type.Upcoming ? "Past" : "Upcoming"}]
+        </button>
+      </p>
 
       <ul className="font-mono text-cyan-950 mb-8">
         {events &&

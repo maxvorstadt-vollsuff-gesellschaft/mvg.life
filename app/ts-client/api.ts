@@ -1999,6 +1999,50 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @summary Past Events
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPastEvents: async (skip?: number, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/events/past`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+            if (skip !== undefined) {
+                localVarQueryParameter['skip'] = skip;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Events
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
@@ -2191,6 +2235,20 @@ export const EventsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Past Events
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listPastEvents(skip?: number, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Event>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listPastEvents(skip, limit, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EventsApi.listPastEvents']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Events
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
@@ -2305,6 +2363,17 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
          */
         listEvents(skip?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Event>> {
             return localVarFp.listEvents(skip, limit, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Past Events
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPastEvents(skip?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Event>> {
+            return localVarFp.listPastEvents(skip, limit, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2431,6 +2500,19 @@ export class EventsApi extends BaseAPI {
      */
     public listEvents(skip?: number, limit?: number, options?: RawAxiosRequestConfig) {
         return EventsApiFp(this.configuration).listEvents(skip, limit, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Past Events
+     * @param {number} [skip] 
+     * @param {number} [limit] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EventsApi
+     */
+    public listPastEvents(skip?: number, limit?: number, options?: RawAxiosRequestConfig) {
+        return EventsApiFp(this.configuration).listPastEvents(skip, limit, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3553,6 +3635,50 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
         },
         /**
          * 
+         * @summary Past Events
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPastEvents: async (skip?: number, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/events/past`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+            if (skip !== undefined) {
+                localVarQueryParameter['skip'] = skip;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get Quotes
          * @param {number} [skip] 
          * @param {number} [limit] 
@@ -4211,6 +4337,20 @@ export const MvgApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Past Events
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listPastEvents(skip?: number, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Event>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listPastEvents(skip, limit, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MvgApi.listPastEvents']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Get Quotes
          * @param {number} [skip] 
          * @param {number} [limit] 
@@ -4578,6 +4718,17 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
          */
         listMembers(options?: RawAxiosRequestConfig): AxiosPromise<Array<Member>> {
             return localVarFp.listMembers(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Past Events
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPastEvents(skip?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Event>> {
+            return localVarFp.listPastEvents(skip, limit, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4968,6 +5119,19 @@ export class MvgApi extends BaseAPI {
      */
     public listMembers(options?: RawAxiosRequestConfig) {
         return MvgApiFp(this.configuration).listMembers(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Past Events
+     * @param {number} [skip] 
+     * @param {number} [limit] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MvgApi
+     */
+    public listPastEvents(skip?: number, limit?: number, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).listPastEvents(skip, limit, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
