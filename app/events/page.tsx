@@ -183,7 +183,7 @@ export default function Home() {
                   [Join]
                 </button>
               )}{" "}
-              <span className="text-amber-800">Teilnehmer: </span>
+              <span className="text-amber-800">Teilnehmer ({participants.length}): </span>
               {participants.map(({ name }) => name).join(", ")}
               {location && (
                 <div className="flex justify-start items-baseline">
