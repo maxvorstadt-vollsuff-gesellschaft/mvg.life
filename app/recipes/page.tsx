@@ -148,12 +148,32 @@ export default function Recipes() {
                       <Link href={`/recipes/${id}/edit`} className="font-mono text-blue-600">
                         [edit]
                       </Link>
-                      <button
-                        onClick={() => deleteRecipe(id)}
-                        className="text-red-600 mr-1"
-                      >
-                        [Delete]
-                      </button>
+                      <Dialog>
+                        <DialogTrigger className="text-red-600 mr-1">
+                          [Delete]
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Delete Recipe?</DialogTitle>
+                            <DialogDescription>
+                              Are you sure you want to delete this recipe? This action cannot be undone.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="flex justify-end gap-4 pt-4">
+                            <DialogClose asChild>
+                              <Button variant="outline">Cancel</Button>
+                            </DialogClose>
+                            <DialogClose asChild>
+                              <Button 
+                                variant="destructive" 
+                                onClick={() => deleteRecipe(id)}
+                              >
+                                Delete
+                              </Button>
+                            </DialogClose>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </>
                   )}
                 </span>

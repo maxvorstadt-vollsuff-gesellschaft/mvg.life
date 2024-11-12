@@ -172,12 +172,32 @@ export default function Home() {
                 </div>
               )}
               {author?.id === member.id && (
-                <button
-                  onClick={() => deleteEvent(id)}
-                  className="text-red-600 mr-1"
-                >
-                  [Delete]
-                </button>
+                <Dialog>
+                  <DialogTrigger className="text-red-600 mr-1">
+                    [Delete]
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Delete Event?</DialogTitle>
+                      <DialogDescription>
+                        This action cannot be undone.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <DialogClose asChild>
+                        <Button variant="outline">Cancel</Button>
+                      </DialogClose>
+                      <DialogClose asChild>
+                        <Button 
+                          variant="destructive" 
+                          onClick={() => deleteEvent(id)}
+                        >
+                          Delete
+                        </Button>
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               )}
             </li>
           ))}

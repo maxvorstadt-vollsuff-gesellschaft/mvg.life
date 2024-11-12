@@ -4,7 +4,6 @@ import Image from "next/image";
 import Countdown from "@/app/Countdown";
 import image1 from "../public/image1.jpg";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Link from "next/link";
 import { mvgApi } from "./mvg-api";
 
