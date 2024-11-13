@@ -96,8 +96,8 @@ export default function Home() {
     });
   }
 
-  function createIcalLink() {
-    mvgApi.createCalendarLink().then(({data}) => {
+  function createIcalLink(force: boolean = false) {
+    mvgApi.createCalendarLink(force).then(({data}) => {
       setIcalLink(data);
     });
   }
@@ -118,7 +118,7 @@ export default function Home() {
       {member.id !== -1 && (
         <>
           <p className="mb-4 font-mono">[Logged in as {member.name}] <Dialog>
-            <DialogTrigger className="font-mono text-green-600" onClick={createIcalLink}>
+            <DialogTrigger className="font-mono text-green-600" onClick={() => createIcalLink()}>
               [Generate iCal Link]
             </DialogTrigger>
             <DialogContent>
@@ -131,6 +131,14 @@ export default function Home() {
               <p onClick={() => navigator.clipboard.writeText(icalLink)}>
                 {icalLink}
               </p>
+              <Button onClick={() => navigator.clipboard.writeText(icalLink)}>
+                Copy
+              </Button>
+              <Button 
+                onClick={() => createIcalLink(true)}
+              >
+                Refresh
+              </Button>
             </DialogContent>
           </Dialog></p>
         </>

@@ -1737,10 +1737,11 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * Create a calendar link for the user. If the user already has a link, the existing link is returned.
          * @summary Create Calendar Link
+         * @param {boolean} [force] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createCalendarLink: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createCalendarLink: async (force?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/events/calendar`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1756,6 +1757,10 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             // authentication OAuth2PasswordBearer required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+            if (force !== undefined) {
+                localVarQueryParameter['force'] = force;
+            }
 
 
     
@@ -2043,7 +2048,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
-         * @summary Events
+         * @summary Upcoming Events
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2144,11 +2149,12 @@ export const EventsApiFp = function(configuration?: Configuration) {
         /**
          * Create a calendar link for the user. If the user already has a link, the existing link is returned.
          * @summary Create Calendar Link
+         * @param {boolean} [force] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createCalendarLink(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createCalendarLink(options);
+        async createCalendarLink(force?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createCalendarLink(force, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EventsApi.createCalendarLink']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -2249,7 +2255,7 @@ export const EventsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Events
+         * @summary Upcoming Events
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2296,11 +2302,12 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
         /**
          * Create a calendar link for the user. If the user already has a link, the existing link is returned.
          * @summary Create Calendar Link
+         * @param {boolean} [force] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createCalendarLink(options?: RawAxiosRequestConfig): AxiosPromise<string> {
-            return localVarFp.createCalendarLink(options).then((request) => request(axios, basePath));
+        createCalendarLink(force?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.createCalendarLink(force, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2377,7 +2384,7 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
-         * @summary Events
+         * @summary Upcoming Events
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2420,12 +2427,13 @@ export class EventsApi extends BaseAPI {
     /**
      * Create a calendar link for the user. If the user already has a link, the existing link is returned.
      * @summary Create Calendar Link
+     * @param {boolean} [force] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EventsApi
      */
-    public createCalendarLink(options?: RawAxiosRequestConfig) {
-        return EventsApiFp(this.configuration).createCalendarLink(options).then((request) => request(this.axios, this.basePath));
+    public createCalendarLink(force?: boolean, options?: RawAxiosRequestConfig) {
+        return EventsApiFp(this.configuration).createCalendarLink(force, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2517,7 +2525,7 @@ export class EventsApi extends BaseAPI {
 
     /**
      * 
-     * @summary Events
+     * @summary Upcoming Events
      * @param {number} [limit] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2767,10 +2775,11 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
         /**
          * Create a calendar link for the user. If the user already has a link, the existing link is returned.
          * @summary Create Calendar Link
+         * @param {boolean} [force] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createCalendarLink: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createCalendarLink: async (force?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/events/calendar`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2786,6 +2795,10 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
             // authentication OAuth2PasswordBearer required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+            if (force !== undefined) {
+                localVarQueryParameter['force'] = force;
+            }
 
 
     
@@ -3719,7 +3732,7 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
         },
         /**
          * 
-         * @summary Events
+         * @summary Upcoming Events
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4035,11 +4048,12 @@ export const MvgApiFp = function(configuration?: Configuration) {
         /**
          * Create a calendar link for the user. If the user already has a link, the existing link is returned.
          * @summary Create Calendar Link
+         * @param {boolean} [force] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createCalendarLink(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createCalendarLink(options);
+        async createCalendarLink(force?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createCalendarLink(force, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.createCalendarLink']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -4365,7 +4379,7 @@ export const MvgApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Events
+         * @summary Upcoming Events
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4488,11 +4502,12 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
         /**
          * Create a calendar link for the user. If the user already has a link, the existing link is returned.
          * @summary Create Calendar Link
+         * @param {boolean} [force] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createCalendarLink(options?: RawAxiosRequestConfig): AxiosPromise<string> {
-            return localVarFp.createCalendarLink(options).then((request) => request(axios, basePath));
+        createCalendarLink(force?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.createCalendarLink(force, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4743,7 +4758,7 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
         },
         /**
          * 
-         * @summary Events
+         * @summary Upcoming Events
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4844,12 +4859,13 @@ export class MvgApi extends BaseAPI {
     /**
      * Create a calendar link for the user. If the user already has a link, the existing link is returned.
      * @summary Create Calendar Link
+     * @param {boolean} [force] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MvgApi
      */
-    public createCalendarLink(options?: RawAxiosRequestConfig) {
-        return MvgApiFp(this.configuration).createCalendarLink(options).then((request) => request(this.axios, this.basePath));
+    public createCalendarLink(force?: boolean, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).createCalendarLink(force, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5149,7 +5165,7 @@ export class MvgApi extends BaseAPI {
 
     /**
      * 
-     * @summary Events
+     * @summary Upcoming Events
      * @param {number} [limit] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
