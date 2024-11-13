@@ -45,6 +45,9 @@ export default function Home() {
           <Link className="font-mono text-amber-800" href="/recipes">
             [Recipes]
           </Link>
+          <Link className="font-mono text-amber-800" href="/mkm">
+            [MKM]
+          </Link>
           {token ? (
             <button
               className="font-mono text-cyan-950"
