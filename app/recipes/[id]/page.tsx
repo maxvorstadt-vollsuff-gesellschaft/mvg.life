@@ -2,6 +2,8 @@ import { FaHardHat } from 'react-icons/fa';
 import { GiCrane } from 'react-icons/gi';
 import Link from 'next/link';
 
+export const runtime = 'edge';
+
 export default function RecipePage() {
   return (
     <div className="px-6 py-6 sm:px-24 sm:py-12">
