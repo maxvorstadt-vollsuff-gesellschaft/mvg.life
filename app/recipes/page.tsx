@@ -19,9 +19,6 @@ import { Input } from "@/components/ui/input";
 import { mvgApi } from "../mvg-api";
 import { Member, Recipe, Situation } from "../ts-client";
 
-type Difficulty = "easy" | "medium" | "hard";
-type TimeOfDay = "breakfast" | "lunch" | "dinner";
-
 export default function Recipes() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [member, setMember] = useState<Member>({ name: "", id: -1, user_sub: "" });
@@ -145,9 +142,7 @@ export default function Recipes() {
                   </Link>
                   {author?.id === member.id && (
                     <>
-                      <Link href={`/recipes/${id}/edit`} className="font-mono text-blue-600">
-                        [edit]
-                      </Link>
+                      {/* TODO: Move edit and delete to details page */}
                       <Dialog>
                         <DialogTrigger className="text-red-600 mr-1">
                           [Delete]
