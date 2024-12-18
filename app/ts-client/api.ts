@@ -296,6 +296,122 @@ export interface HTTPValidationError {
 /**
  * 
  * @export
+ * @interface KickerMatch
+ */
+export interface KickerMatch {
+    /**
+     * 
+     * @type {number}
+     * @memberof KickerMatch
+     */
+    'team_a_score': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof KickerMatch
+     */
+    'team_b_score': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof KickerMatch
+     */
+    'team_a_player_1': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof KickerMatch
+     */
+    'team_a_player_2'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof KickerMatch
+     */
+    'team_b_player_1': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof KickerMatch
+     */
+    'team_b_player_2'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof KickerMatch
+     */
+    'id': number;
+    /**
+     * 
+     * @type {Member}
+     * @memberof KickerMatch
+     */
+    'team_a_player_1_member': Member;
+    /**
+     * 
+     * @type {Member}
+     * @memberof KickerMatch
+     */
+    'team_a_player_2_member'?: Member | null;
+    /**
+     * 
+     * @type {Member}
+     * @memberof KickerMatch
+     */
+    'team_b_player_1_member': Member;
+    /**
+     * 
+     * @type {Member}
+     * @memberof KickerMatch
+     */
+    'team_b_player_2_member'?: Member | null;
+}
+/**
+ * 
+ * @export
+ * @interface KickerMatchCreate
+ */
+export interface KickerMatchCreate {
+    /**
+     * 
+     * @type {number}
+     * @memberof KickerMatchCreate
+     */
+    'team_a_score': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof KickerMatchCreate
+     */
+    'team_b_score': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof KickerMatchCreate
+     */
+    'team_a_player_1': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof KickerMatchCreate
+     */
+    'team_a_player_2'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof KickerMatchCreate
+     */
+    'team_b_player_1': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof KickerMatchCreate
+     */
+    'team_b_player_2'?: string | null;
+}
+/**
+ * 
+ * @export
  * @interface Member
  */
 export interface Member {
@@ -2551,6 +2667,194 @@ export class EventsApi extends BaseAPI {
 
 
 /**
+ * KickerApi - axios parameter creator
+ * @export
+ */
+export const KickerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Create Match
+         * @param {KickerMatchCreate} kickerMatchCreate 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createMatch: async (kickerMatchCreate: KickerMatchCreate, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'kickerMatchCreate' is not null or undefined
+            assertParamExists('createMatch', 'kickerMatchCreate', kickerMatchCreate)
+            const localVarPath = `/goal_tracker/matches`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(kickerMatchCreate, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary List Matches
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listMatches: async (skip?: number, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/goal_tracker/matches`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (skip !== undefined) {
+                localVarQueryParameter['skip'] = skip;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * KickerApi - functional programming interface
+ * @export
+ */
+export const KickerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = KickerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Create Match
+         * @param {KickerMatchCreate} kickerMatchCreate 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createMatch(kickerMatchCreate: KickerMatchCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<KickerMatch>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createMatch(kickerMatchCreate, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['KickerApi.createMatch']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary List Matches
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listMatches(skip?: number, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<KickerMatch>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listMatches(skip, limit, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['KickerApi.listMatches']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * KickerApi - factory interface
+ * @export
+ */
+export const KickerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = KickerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Create Match
+         * @param {KickerMatchCreate} kickerMatchCreate 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createMatch(kickerMatchCreate: KickerMatchCreate, options?: RawAxiosRequestConfig): AxiosPromise<KickerMatch> {
+            return localVarFp.createMatch(kickerMatchCreate, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary List Matches
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listMatches(skip?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<KickerMatch>> {
+            return localVarFp.listMatches(skip, limit, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * KickerApi - object-oriented interface
+ * @export
+ * @class KickerApi
+ * @extends {BaseAPI}
+ */
+export class KickerApi extends BaseAPI {
+    /**
+     * 
+     * @summary Create Match
+     * @param {KickerMatchCreate} kickerMatchCreate 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof KickerApi
+     */
+    public createMatch(kickerMatchCreate: KickerMatchCreate, options?: RawAxiosRequestConfig) {
+        return KickerApiFp(this.configuration).createMatch(kickerMatchCreate, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary List Matches
+     * @param {number} [skip] 
+     * @param {number} [limit] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof KickerApi
+     */
+    public listMatches(skip?: number, limit?: number, options?: RawAxiosRequestConfig) {
+        return KickerApiFp(this.configuration).listMatches(skip, limit, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * MembersApi - axios parameter creator
  * @export
  */
@@ -2921,6 +3225,42 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(eventCreate, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Create Match
+         * @param {KickerMatchCreate} kickerMatchCreate 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createMatch: async (kickerMatchCreate: KickerMatchCreate, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'kickerMatchCreate' is not null or undefined
+            assertParamExists('createMatch', 'kickerMatchCreate', kickerMatchCreate)
+            const localVarPath = `/goal_tracker/matches`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(kickerMatchCreate, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -3618,6 +3958,46 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
         },
         /**
          * 
+         * @summary List Matches
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listMatches: async (skip?: number, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/goal_tracker/matches`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (skip !== undefined) {
+                localVarQueryParameter['skip'] = skip;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Members
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4099,6 +4479,19 @@ export const MvgApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Create Match
+         * @param {KickerMatchCreate} kickerMatchCreate 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createMatch(kickerMatchCreate: KickerMatchCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<KickerMatch>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createMatch(kickerMatchCreate, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MvgApi.createMatch']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Create Card
          * @param {CreateCard} createCard 
          * @param {*} [options] Override http request option.
@@ -4339,6 +4732,20 @@ export const MvgApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary List Matches
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listMatches(skip?: number, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<KickerMatch>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listMatches(skip, limit, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MvgApi.listMatches']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Members
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4541,6 +4948,16 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
         },
         /**
          * 
+         * @summary Create Match
+         * @param {KickerMatchCreate} kickerMatchCreate 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createMatch(kickerMatchCreate: KickerMatchCreate, options?: RawAxiosRequestConfig): AxiosPromise<KickerMatch> {
+            return localVarFp.createMatch(kickerMatchCreate, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Create Card
          * @param {CreateCard} createCard 
          * @param {*} [options] Override http request option.
@@ -4727,6 +5144,17 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
         },
         /**
          * 
+         * @summary List Matches
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listMatches(skip?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<KickerMatch>> {
+            return localVarFp.listMatches(skip, limit, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Members
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4902,6 +5330,18 @@ export class MvgApi extends BaseAPI {
      */
     public createEvent(eventCreate: EventCreate, options?: RawAxiosRequestConfig) {
         return MvgApiFp(this.configuration).createEvent(eventCreate, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Create Match
+     * @param {KickerMatchCreate} kickerMatchCreate 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MvgApi
+     */
+    public createMatch(kickerMatchCreate: KickerMatchCreate, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).createMatch(kickerMatchCreate, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5124,6 +5564,19 @@ export class MvgApi extends BaseAPI {
      */
     public listEvents(skip?: number, limit?: number, options?: RawAxiosRequestConfig) {
         return MvgApiFp(this.configuration).listEvents(skip, limit, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary List Matches
+     * @param {number} [skip] 
+     * @param {number} [limit] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MvgApi
+     */
+    public listMatches(skip?: number, limit?: number, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).listMatches(skip, limit, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
