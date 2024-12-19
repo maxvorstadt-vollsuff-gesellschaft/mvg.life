@@ -21,7 +21,7 @@ import { Member, Recipe, Situation } from "../ts-client";
 
 export default function Recipes() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [member, setMember] = useState<Member>({ name: "", id: -1, user_sub: "" });
+  const [member, setMember] = useState<Member>({ name: "", id: -1, user_sub: "", tkt_elo_rating: 0 });
   const [timeFilter, setTimeFilter] = useState<number | ''>('');
   const [situationFilter, setSituationFilter] = useState<Situation | ''>('');
   const [searchQuery, setSearchQuery] = useState('');

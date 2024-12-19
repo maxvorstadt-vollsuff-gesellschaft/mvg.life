@@ -29,7 +29,7 @@ enum Type {
 
 export default function Home() {
   const [events, setEvents] = useState<Event[]>([]);
-  const [member, setMember] = useState<Member>({ name: "", id: -1, user_sub: "" });
+  const [member, setMember] = useState<Member>({ name: "", id: -1, user_sub: "", tkt_elo_rating: 0 });
   const [icalLink, setIcalLink] = useState<string>("");
   const [type, setType] = useState<Type>(Type.Upcoming);
 

@@ -433,6 +433,12 @@ export interface Member {
      * @memberof Member
      */
     'user_sub': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Member
+     */
+    'tkt_elo_rating': number;
 }
 /**
  * 
@@ -2748,6 +2754,46 @@ export const KickerApiAxiosParamCreator = function (configuration?: Configuratio
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary List Top Players
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listTopPlayers: async (skip?: number, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/goal_tracker/top_players`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (skip !== undefined) {
+                localVarQueryParameter['skip'] = skip;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -2765,7 +2811,7 @@ export const KickerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createMatch(kickerMatchCreate: KickerMatchCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<KickerMatch>> {
+        async createMatch(kickerMatchCreate: KickerMatchCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createMatch(kickerMatchCreate, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['KickerApi.createMatch']?.[localVarOperationServerIndex]?.url;
@@ -2785,6 +2831,20 @@ export const KickerApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['KickerApi.listMatches']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @summary List Top Players
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listTopPlayers(skip?: number, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Member>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listTopPlayers(skip, limit, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['KickerApi.listTopPlayers']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -2802,7 +2862,7 @@ export const KickerApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createMatch(kickerMatchCreate: KickerMatchCreate, options?: RawAxiosRequestConfig): AxiosPromise<KickerMatch> {
+        createMatch(kickerMatchCreate: KickerMatchCreate, options?: RawAxiosRequestConfig): AxiosPromise<string> {
             return localVarFp.createMatch(kickerMatchCreate, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2815,6 +2875,17 @@ export const KickerApiFactory = function (configuration?: Configuration, basePat
          */
         listMatches(skip?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<KickerMatch>> {
             return localVarFp.listMatches(skip, limit, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary List Top Players
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listTopPlayers(skip?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Member>> {
+            return localVarFp.listTopPlayers(skip, limit, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2849,6 +2920,19 @@ export class KickerApi extends BaseAPI {
      */
     public listMatches(skip?: number, limit?: number, options?: RawAxiosRequestConfig) {
         return KickerApiFp(this.configuration).listMatches(skip, limit, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary List Top Players
+     * @param {number} [skip] 
+     * @param {number} [limit] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof KickerApi
+     */
+    public listTopPlayers(skip?: number, limit?: number, options?: RawAxiosRequestConfig) {
+        return KickerApiFp(this.configuration).listTopPlayers(skip, limit, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4112,6 +4196,46 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
         },
         /**
          * 
+         * @summary List Top Players
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listTopPlayers: async (skip?: number, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/goal_tracker/top_players`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (skip !== undefined) {
+                localVarQueryParameter['skip'] = skip;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Upcoming Events
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
@@ -4484,7 +4608,7 @@ export const MvgApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createMatch(kickerMatchCreate: KickerMatchCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<KickerMatch>> {
+        async createMatch(kickerMatchCreate: KickerMatchCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createMatch(kickerMatchCreate, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.createMatch']?.[localVarOperationServerIndex]?.url;
@@ -4786,6 +4910,20 @@ export const MvgApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary List Top Players
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listTopPlayers(skip?: number, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Member>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listTopPlayers(skip, limit, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MvgApi.listTopPlayers']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Upcoming Events
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
@@ -4953,7 +5091,7 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createMatch(kickerMatchCreate: KickerMatchCreate, options?: RawAxiosRequestConfig): AxiosPromise<KickerMatch> {
+        createMatch(kickerMatchCreate: KickerMatchCreate, options?: RawAxiosRequestConfig): AxiosPromise<string> {
             return localVarFp.createMatch(kickerMatchCreate, options).then((request) => request(axios, basePath));
         },
         /**
@@ -5183,6 +5321,17 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
          */
         listQuotes(skip?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Quote>> {
             return localVarFp.listQuotes(skip, limit, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary List Top Players
+         * @param {number} [skip] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listTopPlayers(skip?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Member>> {
+            return localVarFp.listTopPlayers(skip, limit, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -5614,6 +5763,19 @@ export class MvgApi extends BaseAPI {
      */
     public listQuotes(skip?: number, limit?: number, options?: RawAxiosRequestConfig) {
         return MvgApiFp(this.configuration).listQuotes(skip, limit, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary List Top Players
+     * @param {number} [skip] 
+     * @param {number} [limit] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MvgApi
+     */
+    public listTopPlayers(skip?: number, limit?: number, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).listTopPlayers(skip, limit, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
