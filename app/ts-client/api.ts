@@ -337,6 +337,24 @@ export interface KickerMatch {
     'team_b_player_2'?: string | null;
     /**
      * 
+     * @type {string}
+     * @memberof KickerMatch
+     */
+    'history'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof KickerMatch
+     */
+    'start_time'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof KickerMatch
+     */
+    'end_time'?: string | null;
+    /**
+     * 
      * @type {number}
      * @memberof KickerMatch
      */
@@ -408,6 +426,24 @@ export interface KickerMatchCreate {
      * @memberof KickerMatchCreate
      */
     'team_b_player_2'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof KickerMatchCreate
+     */
+    'history'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof KickerMatchCreate
+     */
+    'start_time'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof KickerMatchCreate
+     */
+    'end_time'?: string | null;
 }
 /**
  * 

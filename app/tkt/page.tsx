@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { mvgApi } from "../mvg-api";
 import { KickerMatch, Member } from '../ts-client';
+import { skip } from 'node:test';
 
 export default function TKTPage() {
   const [matches, setMatches] = useState<KickerMatch[]>([]);
   const [topPlayers, setTopPlayers] = useState<Member[]>([]);
 
   useEffect(() => {
-    mvgApi.listMatches().then(({ data }) => {
+    mvgApi.listMatches(0, 100).then(({ data }) => {
       setMatches(data);
     });
 
@@ -48,6 +49,9 @@ export default function TKTPage() {
               </div>
               <div className="text-gray-600">
                 Score: {match.team_a_score} - {match.team_b_score}
+              </div>
+              <div className="text-gray-600">
+                History: {match.history}
               </div>
             </li>
           ))}
