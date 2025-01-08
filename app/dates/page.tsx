@@ -52,6 +52,8 @@ export default function Dates() {
     const author_id = member.id;
     const image = formData.get("image");
     const date_no = formData.get("date_no");
+    console.log(name, description, season, author_id, image, date_no);
+
     mvgApi.createDateIdea(
       name as string,
       season as Jahreszeit,
