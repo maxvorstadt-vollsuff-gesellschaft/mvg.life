@@ -59,7 +59,7 @@ export default function Dates() {
       season as Jahreszeit,
       description as string,
       parseInt(date_no as string),
-      image as File,
+      null
     ).then(() => {
       fetchDates();
     });
