@@ -48,14 +48,13 @@ export default function Dates() {
     const formData = new FormData(event.currentTarget);
     const name = formData.get("name");
     const description = formData.get("description");
-    const time = formData.get("time");
-    const situation = formData.get("situation");
+    const season = formData.get("season");
     const author_id = member.id;
     const image = formData.get("image");
     const date_no = formData.get("date_no");
     mvgApi.createDateIdea(
       name as string,
-      situation as Jahreszeit,
+      season as Jahreszeit,
       description as string,
       parseInt(date_no as string),
       image as File,
