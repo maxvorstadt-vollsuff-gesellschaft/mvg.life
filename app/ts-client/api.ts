@@ -83,6 +83,63 @@ export interface CreateCard {
 /**
  * 
  * @export
+ * @interface DateIdea
+ */
+export interface DateIdea {
+    /**
+     * 
+     * @type {string}
+     * @memberof DateIdea
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DateIdea
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof DateIdea
+     */
+    'time': number | null;
+    /**
+     * 
+     * @type {Jahreszeit}
+     * @memberof DateIdea
+     */
+    'season': Jahreszeit;
+    /**
+     * 
+     * @type {string}
+     * @memberof DateIdea
+     */
+    'image_url': string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof DateIdea
+     */
+    'date_no': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DateIdea
+     */
+    'id': number;
+    /**
+     * 
+     * @type {Member}
+     * @memberof DateIdea
+     */
+    'author': Member | null;
+}
+
+
+/**
+ * 
+ * @export
  * @interface Drink
  */
 export interface Drink {
@@ -293,6 +350,23 @@ export interface HTTPValidationError {
      */
     'detail'?: Array<ValidationError>;
 }
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const Jahreszeit = {
+    Winter: 'winter',
+    Spring: 'spring',
+    Summer: 'summer',
+    Fall: 'fall',
+    All: 'all'
+} as const;
+
+export type Jahreszeit = typeof Jahreszeit[keyof typeof Jahreszeit];
+
+
 /**
  * 
  * @export
@@ -1652,6 +1726,452 @@ export class ChuggingApi extends BaseAPI {
      */
     public listChugs(skip?: number, limit?: number, options?: RawAxiosRequestConfig) {
         return ChuggingApiFp(this.configuration).listChugs(skip, limit, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * DatesApi - axios parameter creator
+ * @export
+ */
+export const DatesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Create Date Idea
+         * @param {string} name 
+         * @param {Jahreszeit} season 
+         * @param {string} description 
+         * @param {number} dateNo 
+         * @param {File | null} [image] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createDateIdea: async (name: string, season: Jahreszeit, description: string, dateNo: number, image?: File | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'name' is not null or undefined
+            assertParamExists('createDateIdea', 'name', name)
+            // verify required parameter 'season' is not null or undefined
+            assertParamExists('createDateIdea', 'season', season)
+            // verify required parameter 'description' is not null or undefined
+            assertParamExists('createDateIdea', 'description', description)
+            // verify required parameter 'dateNo' is not null or undefined
+            assertParamExists('createDateIdea', 'dateNo', dateNo)
+            const localVarPath = `/dates`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+            if (name !== undefined) {
+                localVarQueryParameter['name'] = name;
+            }
+
+            if (season !== undefined) {
+                localVarQueryParameter['season'] = season;
+            }
+
+            if (description !== undefined) {
+                localVarQueryParameter['description'] = description;
+            }
+
+            if (dateNo !== undefined) {
+                localVarQueryParameter['date_no'] = dateNo;
+            }
+
+
+            if (image !== undefined) { 
+                localVarFormParams.append('image', image as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete Date Idea
+         * @param {number} [dateIdeaId] 
+         * @param {string} [dateIdeaName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteDateIdea: async (dateIdeaId?: number, dateIdeaName?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/dates`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+            if (dateIdeaId !== undefined) {
+                localVarQueryParameter['date_idea_id'] = dateIdeaId;
+            }
+
+            if (dateIdeaName !== undefined) {
+                localVarQueryParameter['date_idea_name'] = dateIdeaName;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get All Date Ideas
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllDateIdeas: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/dates`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get Date Idea
+         * @param {number} dateIdeaId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDateIdeaById: async (dateIdeaId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'dateIdeaId' is not null or undefined
+            assertParamExists('getDateIdeaById', 'dateIdeaId', dateIdeaId)
+            const localVarPath = `/dates/{date_idea_id}`
+                .replace(`{${"date_idea_id"}}`, encodeURIComponent(String(dateIdeaId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Upload Date Idea Image
+         * @param {File} image 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadDateIdeaImage: async (image: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'image' is not null or undefined
+            assertParamExists('uploadDateIdeaImage', 'image', image)
+            const localVarPath = `/dates/image`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+
+            if (image !== undefined) { 
+                localVarFormParams.append('image', image as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DatesApi - functional programming interface
+ * @export
+ */
+export const DatesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DatesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Create Date Idea
+         * @param {string} name 
+         * @param {Jahreszeit} season 
+         * @param {string} description 
+         * @param {number} dateNo 
+         * @param {File | null} [image] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createDateIdea(name: string, season: Jahreszeit, description: string, dateNo: number, image?: File | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DateIdea>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createDateIdea(name, season, description, dateNo, image, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DatesApi.createDateIdea']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Delete Date Idea
+         * @param {number} [dateIdeaId] 
+         * @param {string} [dateIdeaName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteDateIdea(dateIdeaId?: number, dateIdeaName?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteDateIdea(dateIdeaId, dateIdeaName, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DatesApi.deleteDateIdea']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get All Date Ideas
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllDateIdeas(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<DateIdea>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllDateIdeas(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DatesApi.getAllDateIdeas']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get Date Idea
+         * @param {number} dateIdeaId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDateIdeaById(dateIdeaId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DateIdea>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDateIdeaById(dateIdeaId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DatesApi.getDateIdeaById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Upload Date Idea Image
+         * @param {File} image 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async uploadDateIdeaImage(image: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadDateIdeaImage(image, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DatesApi.uploadDateIdeaImage']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * DatesApi - factory interface
+ * @export
+ */
+export const DatesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DatesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Create Date Idea
+         * @param {string} name 
+         * @param {Jahreszeit} season 
+         * @param {string} description 
+         * @param {number} dateNo 
+         * @param {File | null} [image] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createDateIdea(name: string, season: Jahreszeit, description: string, dateNo: number, image?: File | null, options?: RawAxiosRequestConfig): AxiosPromise<DateIdea> {
+            return localVarFp.createDateIdea(name, season, description, dateNo, image, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete Date Idea
+         * @param {number} [dateIdeaId] 
+         * @param {string} [dateIdeaName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteDateIdea(dateIdeaId?: number, dateIdeaName?: string, options?: RawAxiosRequestConfig): AxiosPromise<object> {
+            return localVarFp.deleteDateIdea(dateIdeaId, dateIdeaName, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get All Date Ideas
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllDateIdeas(options?: RawAxiosRequestConfig): AxiosPromise<Array<DateIdea>> {
+            return localVarFp.getAllDateIdeas(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get Date Idea
+         * @param {number} dateIdeaId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDateIdeaById(dateIdeaId: number, options?: RawAxiosRequestConfig): AxiosPromise<DateIdea> {
+            return localVarFp.getDateIdeaById(dateIdeaId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Upload Date Idea Image
+         * @param {File} image 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadDateIdeaImage(image: File, options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.uploadDateIdeaImage(image, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DatesApi - object-oriented interface
+ * @export
+ * @class DatesApi
+ * @extends {BaseAPI}
+ */
+export class DatesApi extends BaseAPI {
+    /**
+     * 
+     * @summary Create Date Idea
+     * @param {string} name 
+     * @param {Jahreszeit} season 
+     * @param {string} description 
+     * @param {number} dateNo 
+     * @param {File | null} [image] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DatesApi
+     */
+    public createDateIdea(name: string, season: Jahreszeit, description: string, dateNo: number, image?: File | null, options?: RawAxiosRequestConfig) {
+        return DatesApiFp(this.configuration).createDateIdea(name, season, description, dateNo, image, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete Date Idea
+     * @param {number} [dateIdeaId] 
+     * @param {string} [dateIdeaName] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DatesApi
+     */
+    public deleteDateIdea(dateIdeaId?: number, dateIdeaName?: string, options?: RawAxiosRequestConfig) {
+        return DatesApiFp(this.configuration).deleteDateIdea(dateIdeaId, dateIdeaName, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get All Date Ideas
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DatesApi
+     */
+    public getAllDateIdeas(options?: RawAxiosRequestConfig) {
+        return DatesApiFp(this.configuration).getAllDateIdeas(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get Date Idea
+     * @param {number} dateIdeaId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DatesApi
+     */
+    public getDateIdeaById(dateIdeaId: number, options?: RawAxiosRequestConfig) {
+        return DatesApiFp(this.configuration).getDateIdeaById(dateIdeaId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Upload Date Idea Image
+     * @param {File} image 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DatesApi
+     */
+    public uploadDateIdeaImage(image: File, options?: RawAxiosRequestConfig) {
+        return DatesApiFp(this.configuration).uploadDateIdeaImage(image, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -3273,6 +3793,77 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
         },
         /**
          * 
+         * @summary Create Date Idea
+         * @param {string} name 
+         * @param {Jahreszeit} season 
+         * @param {string} description 
+         * @param {number} dateNo 
+         * @param {File | null} [image] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createDateIdea: async (name: string, season: Jahreszeit, description: string, dateNo: number, image?: File | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'name' is not null or undefined
+            assertParamExists('createDateIdea', 'name', name)
+            // verify required parameter 'season' is not null or undefined
+            assertParamExists('createDateIdea', 'season', season)
+            // verify required parameter 'description' is not null or undefined
+            assertParamExists('createDateIdea', 'description', description)
+            // verify required parameter 'dateNo' is not null or undefined
+            assertParamExists('createDateIdea', 'dateNo', dateNo)
+            const localVarPath = `/dates`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+            if (name !== undefined) {
+                localVarQueryParameter['name'] = name;
+            }
+
+            if (season !== undefined) {
+                localVarQueryParameter['season'] = season;
+            }
+
+            if (description !== undefined) {
+                localVarQueryParameter['description'] = description;
+            }
+
+            if (dateNo !== undefined) {
+                localVarQueryParameter['date_no'] = dateNo;
+            }
+
+
+            if (image !== undefined) { 
+                localVarFormParams.append('image', image as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Post Drink
          * @param {DrinkCreate} drinkCreate 
          * @param {*} [options] Override http request option.
@@ -3570,6 +4161,50 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
         },
         /**
          * 
+         * @summary Delete Date Idea
+         * @param {number} [dateIdeaId] 
+         * @param {string} [dateIdeaName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteDateIdea: async (dateIdeaId?: number, dateIdeaName?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/dates`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+            if (dateIdeaId !== undefined) {
+                localVarQueryParameter['date_idea_id'] = dateIdeaId;
+            }
+
+            if (dateIdeaName !== undefined) {
+                localVarQueryParameter['date_idea_name'] = dateIdeaName;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Delete Event
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -3682,6 +4317,36 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
         },
         /**
          * 
+         * @summary Get All Date Ideas
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllDateIdeas: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/dates`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get All Recipes
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3722,6 +4387,40 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
             assertParamExists('getCalendarEvents', 'tag', tag)
             const localVarPath = `/events/calendar/{tag}`
                 .replace(`{${"tag"}}`, encodeURIComponent(String(tag)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get Date Idea
+         * @param {number} dateIdeaId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDateIdeaById: async (dateIdeaId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'dateIdeaId' is not null or undefined
+            assertParamExists('getDateIdeaById', 'dateIdeaId', dateIdeaId)
+            const localVarPath = `/dates/{date_idea_id}`
+                .replace(`{${"date_idea_id"}}`, encodeURIComponent(String(dateIdeaId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -4523,6 +5222,47 @@ export const MvgApiAxiosParamCreator = function (configuration?: Configuration) 
         },
         /**
          * 
+         * @summary Upload Date Idea Image
+         * @param {File} image 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadDateIdeaImage: async (image: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'image' is not null or undefined
+            assertParamExists('uploadDateIdeaImage', 'image', image)
+            const localVarPath = `/dates/image`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+
+            if (image !== undefined) { 
+                localVarFormParams.append('image', image as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Upload Recipe Image
          * @param {File} image 
          * @param {*} [options] Override http request option.
@@ -4609,6 +5349,23 @@ export const MvgApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createChugs(uploadChug, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.createChugs']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Create Date Idea
+         * @param {string} name 
+         * @param {Jahreszeit} season 
+         * @param {string} description 
+         * @param {number} dateNo 
+         * @param {File | null} [image] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createDateIdea(name: string, season: Jahreszeit, description: string, dateNo: number, image?: File | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DateIdea>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createDateIdea(name, season, description, dateNo, image, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MvgApi.createDateIdea']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -4708,6 +5465,20 @@ export const MvgApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Delete Date Idea
+         * @param {number} [dateIdeaId] 
+         * @param {string} [dateIdeaName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteDateIdea(dateIdeaId?: number, dateIdeaName?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteDateIdea(dateIdeaId, dateIdeaName, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MvgApi.deleteDateIdea']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Delete Event
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -4747,6 +5518,18 @@ export const MvgApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get All Date Ideas
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllDateIdeas(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<DateIdea>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllDateIdeas(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MvgApi.getAllDateIdeas']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Get All Recipes
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4768,6 +5551,19 @@ export const MvgApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCalendarEvents(tag, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MvgApi.getCalendarEvents']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get Date Idea
+         * @param {number} dateIdeaId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDateIdeaById(dateIdeaId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DateIdea>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDateIdeaById(dateIdeaId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MvgApi.getDateIdeaById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -5049,6 +5845,19 @@ export const MvgApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Upload Date Idea Image
+         * @param {File} image 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async uploadDateIdeaImage(image: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadDateIdeaImage(image, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MvgApi.uploadDateIdeaImage']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Upload Recipe Image
          * @param {File} image 
          * @param {*} [options] Override http request option.
@@ -5099,6 +5908,20 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
          */
         createChugs(uploadChug: UploadChug, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.createChugs(uploadChug, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Create Date Idea
+         * @param {string} name 
+         * @param {Jahreszeit} season 
+         * @param {string} description 
+         * @param {number} dateNo 
+         * @param {File | null} [image] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createDateIdea(name: string, season: Jahreszeit, description: string, dateNo: number, image?: File | null, options?: RawAxiosRequestConfig): AxiosPromise<DateIdea> {
+            return localVarFp.createDateIdea(name, season, description, dateNo, image, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -5176,6 +5999,17 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
         },
         /**
          * 
+         * @summary Delete Date Idea
+         * @param {number} [dateIdeaId] 
+         * @param {string} [dateIdeaName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteDateIdea(dateIdeaId?: number, dateIdeaName?: string, options?: RawAxiosRequestConfig): AxiosPromise<object> {
+            return localVarFp.deleteDateIdea(dateIdeaId, dateIdeaName, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Delete Event
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -5206,6 +6040,15 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
         },
         /**
          * 
+         * @summary Get All Date Ideas
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllDateIdeas(options?: RawAxiosRequestConfig): AxiosPromise<Array<DateIdea>> {
+            return localVarFp.getAllDateIdeas(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Get All Recipes
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5222,6 +6065,16 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
          */
         getCalendarEvents(tag: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.getCalendarEvents(tag, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get Date Idea
+         * @param {number} dateIdeaId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDateIdeaById(dateIdeaId: number, options?: RawAxiosRequestConfig): AxiosPromise<DateIdea> {
+            return localVarFp.getDateIdeaById(dateIdeaId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -5439,6 +6292,16 @@ export const MvgApiFactory = function (configuration?: Configuration, basePath?:
         },
         /**
          * 
+         * @summary Upload Date Idea Image
+         * @param {File} image 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadDateIdeaImage(image: File, options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.uploadDateIdeaImage(image, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Upload Recipe Image
          * @param {File} image 
          * @param {*} [options] Override http request option.
@@ -5491,6 +6354,22 @@ export class MvgApi extends BaseAPI {
      */
     public createChugs(uploadChug: UploadChug, options?: RawAxiosRequestConfig) {
         return MvgApiFp(this.configuration).createChugs(uploadChug, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Create Date Idea
+     * @param {string} name 
+     * @param {Jahreszeit} season 
+     * @param {string} description 
+     * @param {number} dateNo 
+     * @param {File | null} [image] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MvgApi
+     */
+    public createDateIdea(name: string, season: Jahreszeit, description: string, dateNo: number, image?: File | null, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).createDateIdea(name, season, description, dateNo, image, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5583,6 +6462,19 @@ export class MvgApi extends BaseAPI {
 
     /**
      * 
+     * @summary Delete Date Idea
+     * @param {number} [dateIdeaId] 
+     * @param {string} [dateIdeaName] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MvgApi
+     */
+    public deleteDateIdea(dateIdeaId?: number, dateIdeaName?: string, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).deleteDateIdea(dateIdeaId, dateIdeaName, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Delete Event
      * @param {number} id 
      * @param {*} [options] Override http request option.
@@ -5619,6 +6511,17 @@ export class MvgApi extends BaseAPI {
 
     /**
      * 
+     * @summary Get All Date Ideas
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MvgApi
+     */
+    public getAllDateIdeas(options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).getAllDateIdeas(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Get All Recipes
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5638,6 +6541,18 @@ export class MvgApi extends BaseAPI {
      */
     public getCalendarEvents(tag: string, options?: RawAxiosRequestConfig) {
         return MvgApiFp(this.configuration).getCalendarEvents(tag, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get Date Idea
+     * @param {number} dateIdeaId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MvgApi
+     */
+    public getDateIdeaById(dateIdeaId: number, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).getDateIdeaById(dateIdeaId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5894,6 +6809,18 @@ export class MvgApi extends BaseAPI {
      */
     public removeEventParticipant(eventId: number, options?: RawAxiosRequestConfig) {
         return MvgApiFp(this.configuration).removeEventParticipant(eventId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Upload Date Idea Image
+     * @param {File} image 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MvgApi
+     */
+    public uploadDateIdeaImage(image: File, options?: RawAxiosRequestConfig) {
+        return MvgApiFp(this.configuration).uploadDateIdeaImage(image, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

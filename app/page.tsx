@@ -51,6 +51,9 @@ export default function Home() {
           <Link className="font-mono text-amber-800" href="/tkt">
             [TKT]
           </Link>
+          <Link className="font-mono text-amber-800" href="/dates">
+            [Dates]
+          </Link>
           {token ? (
             <button
               className="font-mono text-cyan-950"
